@@ -4,53 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Added Risk Photos">
-      <change afterPath="$PROJECT_DIR$/RiskBoard/territory_map.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/Enviornment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Afghanistan.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Afghanistan.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Alaska.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Alaska.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Alberta.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Alberta.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Argentina.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Argentina.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Brazil.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Brazil.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Central_America.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Central_America.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/China.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/China.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Congo.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Congo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/East_Africa.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/East_Africa.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Eastern_Australia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Eastern_Australia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Eastern_US.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Eastern_US.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Egypt.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Egypt.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Great_Britain.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Great_Britain.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Greenland.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Greenland.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Iceland.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Iceland.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/India.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/India.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Indonesia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Indonesia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Irkutsk.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Irkutsk.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Japan.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Japan.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Kamchatka.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Kamchatka.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Madagascar.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Madagascar.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Middle_East.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Middle_East.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Mongolia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Mongolia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/New_Guinea.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/New_Guinea.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/North_Africa.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/North_Africa.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Northern_Europe.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Northern_Europe.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Northwest_Territory.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Northwest_Territory.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Ontario.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Ontario.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Peru.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Peru.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Quebec.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Quebec.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Scandinavia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Scandinavia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Siam.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Siam.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Siberia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Siberia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/South_Africa.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/South_Africa.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Southern_Europe.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Southern_Europe.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Ukraine.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Ukraine.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Ural.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Ural.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Venezuela.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Venezuela.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Western_Australia.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Western_Australia.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Western_Europe.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Western_Europe.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Western_US.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Western_US.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RiskBoard/Yakutsk.png" beforeDir="false" afterPath="$PROJECT_DIR$/RiskBoard/territories/Yakutsk.png" afterDir="false" />
-    </list>
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Established foundational stuff, building up Territory class as just a structure thats used to create the games themselves with no initialization. It can be copied and used for risk games in general, and contains a link to an image for each territory object by name. The board method current just generates the board but will soon have some tools useful for gameplay. Arrow isnt finished, and risk game ui only has the basics, but utilizes a recolor class to dynamically make the game elements rather than having them prefabricated." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -115,8 +69,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\RiskBoard\territories" />
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\RiskBoard" />
+      <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\RiskBoard\territories" />
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm" />
     </key>
   </component>
@@ -160,12 +114,21 @@
       <option name="project" value="LOCAL" />
       <updated>1738793085333</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Established foundational stuff, building up Territory class as just a structure thats used to create the games themselves with no initialization. It can be copied and used for risk games in general, and contains a link to an image for each territory object by name. The board method current just generates the board but will soon have some tools useful for gameplay. Arrow isnt finished, and risk game ui only has the basics, but utilizes a recolor class to dynamically make the game elements rather than having them prefabricated.">
+      <option name="closed" value="true" />
+      <created>1739139487484</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739139487484</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="I am the captain now" />
     <MESSAGE value="Added Risk Photos" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Risk Photos" />
+    <MESSAGE value="Established foundational stuff, building up Territory class as just a structure thats used to create the games themselves with no initialization. It can be copied and used for risk games in general, and contains a link to an image for each territory object by name. The board method current just generates the board but will soon have some tools useful for gameplay. Arrow isnt finished, and risk game ui only has the basics, but utilizes a recolor class to dynamically make the game elements rather than having them prefabricated." />
+    <option name="LAST_COMMIT_MESSAGE" value="Established foundational stuff, building up Territory class as just a structure thats used to create the games themselves with no initialization. It can be copied and used for risk games in general, and contains a link to an image for each territory object by name. The board method current just generates the board but will soon have some tools useful for gameplay. Arrow isnt finished, and risk game ui only has the basics, but utilizes a recolor class to dynamically make the game elements rather than having them prefabricated." />
   </component>
 </project>
