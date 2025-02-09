@@ -30,7 +30,7 @@ territories_with_adjacency = {
     "Peru": ["Venezuela", "Brazil", "Argentina"],
     "Argentina": ["Peru", "Brazil"],
     "Brazil": ["Venezuela", "Peru", "Argentina", "North_Africa"],
-    "North_Africa": ["Western_Europe", "Southern_Europe", "Egypt", "East_Africa", "Congo"],
+    "North_Africa": ["Brazil","Western_Europe", "Southern_Europe", "Egypt", "East_Africa", "Congo"],
     "Egypt": ["North_Africa", "Southern_Europe", "Middle_East", "East_Africa"],
     "East_Africa": ["Egypt", "Middle_East", "Congo", "Madagascar", "South_Africa"],
     "Congo": ["North_Africa", "East_Africa", "South_Africa"],

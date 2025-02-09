@@ -1,0 +1,170 @@
+{
+    "Alaska": {
+        "x": 21,
+        "y": 42
+    },
+    "Northwest_Territory": {
+        "x": 68,
+        "y": 40
+    },
+    "Alberta": {
+        "x": 64,
+        "y": 64
+    },
+    "Ontario": {
+        "x": 94,
+        "y": 67
+    },
+    "Greenland": {
+        "x": 160,
+        "y": 26
+    },
+    "Quebec": {
+        "x": 128,
+        "y": 67
+    },
+    "Eastern_US": {
+        "x": 102,
+        "y": 105
+    },
+    "Western_US": {
+        "x": 64,
+        "y": 95
+    },
+    "Central_America": {
+        "x": 67,
+        "y": 124
+    },
+    "Venezuela": {
+        "x": 98,
+        "y": 158
+    },
+    "Peru": {
+        "x": 113,
+        "y": 193
+    },
+    "Argentina": {
+        "x": 113,
+        "y": 228
+    },
+    "Brazil": {
+        "x": 144,
+        "y": 186
+    },
+    "North_Africa": {
+        "x": 216,
+        "y": 172
+    },
+    "Egypt": {
+        "x": 257,
+        "y": 161
+    },
+    "East_Africa": {
+        "x": 282,
+        "y": 184
+    },
+    "Congo": {
+        "x": 262,
+        "y": 206
+    },
+    "South_Africa": {
+        "x": 264,
+        "y": 246
+    },
+    "Madagascar": {
+        "x": 309,
+        "y": 245
+    },
+    "Western_Europe": {
+        "x": 202,
+        "y": 131
+    },
+    "Great_Britain": {
+        "x": 200,
+        "y": 90
+    },
+    "Iceland": {
+        "x": 205,
+        "y": 56
+    },
+    "Scandinavia": {
+        "x": 239,
+        "y": 60
+    },
+    "Northern_Europe": {
+        "x": 242,
+        "y": 91
+    },
+    "Southern_Europe": {
+        "x": 252,
+        "y": 120
+    },
+    "Ukraine": {
+        "x": 287,
+        "y": 74
+    },
+    "Middle_East": {
+        "x": 302,
+        "y": 148
+    },
+    "India": {
+        "x": 360,
+        "y": 147
+    },
+    "Siam": {
+        "x": 402,
+        "y": 154
+    },
+    "Indonesia": {
+        "x": 405,
+        "y": 201
+    },
+    "New_Guinea": {
+        "x": 449,
+        "y": 191
+    },
+    "Western_Australia": {
+        "x": 410,
+        "y": 248
+    },
+    "Eastern_Australia": {
+        "x": 455,
+        "y": 244
+    },
+    "China": {
+        "x": 393,
+        "y": 123
+    },
+    "Afghanistan": {
+        "x": 332,
+        "y": 99
+    },
+    "Ural": {
+        "x": 339,
+        "y": 65
+    },
+    "Siberia": {
+        "x": 365,
+        "y": 42
+    },
+    "Mongolia": {
+        "x": 406,
+        "y": 95
+    },
+    "Japan": {
+        "x": 456,
+        "y": 97
+    },
+    "Irkutsk": {
+        "x": 398,
+        "y": 66
+    },
+    "Yakutsk": {
+        "x": 404,
+        "y": 31
+    },
+    "Kamchatka": {
+        "x": 447,
+        "y": 32
+    }
+}
