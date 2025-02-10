@@ -549,14 +549,16 @@ class MiniBoardPreview(tk.Frame):
 
 
 # ----------------------------------------------------------------
-# SlickControlPanelTk
+# MainMenu
 # ----------------------------------------------------------------
-class SlickControlPanelTk(tk.Tk):
+class MainMenu(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Slick Control Panel")
+        self.title("Risk AI Main Menu")
         self.geometry("641x736")
         self.minsize(641, 736)
+
+        self.set_window_icon()
 
         self.style = ttk.Style(self)
         self._configure_style()
@@ -628,6 +630,10 @@ class SlickControlPanelTk(tk.Tk):
         board_name_entry = ttk.Entry(container, textvariable=self.board_name_var)
         board_name_entry.grid(row=11, column=1, sticky="ew", padx=5, pady=5)
 
+        # Add Save button here
+        save_btn = ttk.Button(container, text="Save", command=self.save_board)
+        save_btn.grid(row=11, column=2, sticky="w", padx=5, pady=5)  # Added Save button
+
         # Load button next to Saved Board dropdown
         lbl_saved_board = ttk.Label(container, text="Saved Board:")
         lbl_saved_board.grid(row=12, column=0, sticky="w", padx=5, pady=5)
@@ -652,6 +658,47 @@ class SlickControlPanelTk(tk.Tk):
             f for f in os.listdir("TrainedAI")
             if os.path.isfile(os.path.join("TrainedAI", f))
         )
+
+    def set_window_icon(self):
+        """Sets the window icon using the RiskMap image."""
+        try:
+            if os.path.exists(BACKGROUND_IMAGE_PATH):
+                img = Image.open(BACKGROUND_IMAGE_PATH)
+                img = img.resize((32, 32), Image.Resampling.LANCZOS)
+                icon = ImageTk.PhotoImage(img)
+                self.iconphoto(False, icon)
+        except Exception as e:
+            print(f"Failed to set window icon: {e}")
+
+    def save_board(self):
+        """Saves the current custom board with the specified name"""
+        board_name = self.board_name_var.get().strip()
+
+        if not board_name:
+            tk.messagebox.showerror("Error", "Please enter a board name")
+            return
+
+        if not hasattr(self, 'custom_board') or not self.custom_board:
+            tk.messagebox.showerror("Error", "No custom board to save!\nEnable 'Use Custom Board' first")
+            return
+
+        # Ensure directory exists
+        os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
+
+        # Add JSON extension if missing
+        if not board_name.endswith('.json'):
+            board_name += '.json'
+
+        file_path = os.path.join(CUSTOM_BOARDS_FOLDER, board_name)
+
+        try:
+            self.custom_board.save_to_file(file_path)
+            # Update saved boards list and select new entry
+            self.saved_board_combo['values'] = self.get_saved_boards_list()
+            self.saved_board_var.set(board_name)
+            tk.messagebox.showinfo("Success", f"Board saved as {board_name}")
+        except Exception as e:
+            tk.messagebox.showerror("Save Error", f"Failed to save board:\n{str(e)}")
 
     def get_saved_boards_list(self):
         if not os.path.isdir(CUSTOM_BOARDS_FOLDER):
@@ -721,6 +768,6 @@ class SlickControlPanelTk(tk.Tk):
 # ----------------------------------------------------------------
 if __name__ == "__main__":
     os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
-    app = SlickControlPanelTk()
+    app = MainMenu()
     app.mainloop()
     print("Control Panel closed.")
