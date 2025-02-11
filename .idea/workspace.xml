@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Updated Everything to be alot cleaner">
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Play And Visualize.py" beforeDir="false" afterPath="$PROJECT_DIR$/Play And Visualize.py" afterDir="false" />
     </list>
@@ -141,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739149977162</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon">
+      <option name="closed" value="true" />
+      <created>1739153158044</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1739153158044</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -149,6 +157,7 @@
     <MESSAGE value="Added Risk Photos" />
     <MESSAGE value="Established foundational stuff, building up Territory class as just a structure thats used to create the games themselves with no initialization. It can be copied and used for risk games in general, and contains a link to an image for each territory object by name. The board method current just generates the board but will soon have some tools useful for gameplay. Arrow isnt finished, and risk game ui only has the basics, but utilizes a recolor class to dynamically make the game elements rather than having them prefabricated." />
     <MESSAGE value="Updated Everything to be alot cleaner" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Everything to be alot cleaner" />
+    <MESSAGE value="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon" />
   </component>
 </project>
