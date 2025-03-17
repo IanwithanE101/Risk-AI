@@ -4,20 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Implemented some part of gameplay for the deploy phase and reorganized alot of stuff.">
-      <change afterPath="$PROJECT_DIR$/Misc/FROMAN.TTF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/risk_game.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scoring.py" afterDir="false" />
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <change afterPath="$PROJECT_DIR$/game_storage.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/Risk-AI-Using-Qtables-and-Genetic-Algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Risk-AI-Using-Qtables-and-Genetic-Algorithm.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CustomBoards/Red Europe.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Display.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Genetic Algorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/dqn_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Play And Visualize.py" beforeDir="false" afterPath="$PROJECT_DIR$/play_game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Training Qtables.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dqn_model.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/play_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/play_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/risk_game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scoring.py" beforeDir="false" afterPath="$PROJECT_DIR$/scoring.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,11 +75,13 @@
     "Python.Enviornment.executor": "Run",
     "Python.Play And Visualize.executor": "Run",
     "Python.Training Qtables.executor": "Run",
+    "Python.config.executor": "Run",
     "Python.dqn_model.executor": "Run",
     "Python.enviornment.executor": "Run",
     "Python.main_menu.executor": "Run",
     "Python.menu.executor": "Run",
     "Python.play_game.executor": "Run",
+    "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "Updating-massively",
@@ -175,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739249967304</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1741805707151</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741805707151</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -185,6 +195,7 @@
     <MESSAGE value="Updated Everything to be alot cleaner" />
     <MESSAGE value="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon" />
     <MESSAGE value="Implemented some part of gameplay for the deploy phase and reorganized alot of stuff." />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented some part of gameplay for the deploy phase and reorganized alot of stuff." />
+    <MESSAGE value="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures" />
   </component>
 </project>
