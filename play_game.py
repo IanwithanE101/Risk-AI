@@ -22,21 +22,24 @@ class RiskGameGUI:
         self.player_types = player_types  # Store player types
         self.window_width = SCREEN_WIDTH
         self.window_height = SCREEN_HEIGHT
+        self.board_height = int(0.95 * self.window_height)  # 90% of screen height
+        self.control_height = self.window_height - self.board_height  # Remaining 10% for controls
         self.running = True
 
         pygame.init()
         pygame.display.set_caption("Risk Game")
 
-        # Set window icon
-        self.set_window_icon()
-
         # Setup display
         self.screen = pygame.display.set_mode((self.window_width, self.window_height), pygame.RESIZABLE)
+
+        # Set window icon
+        self.set_window_icon()
 
         # Load assets
         self.background_image = self.load_background()
         self.territory_positions = self.load_territory_positions()
         self.displayed_territories = self.load_territory_images()
+
 
     def set_window_icon(self):
         """Loads and sets the window icon."""
@@ -52,9 +55,9 @@ class RiskGameGUI:
         """Loads and scales the game board background."""
         if os.path.exists(BACKGROUND_IMAGE_PATH):
             bg = pygame.image.load(BACKGROUND_IMAGE_PATH).convert_alpha()
-            return pygame.transform.scale(bg, (self.window_width, self.window_height))
+            return pygame.transform.scale(bg, (self.window_width, self.board_height))  # Scale only to board height
         else:
-            surface = pygame.Surface((self.window_width, self.window_height))
+            surface = pygame.Surface((self.window_width, self.board_height))
             surface.fill((200, 200, 200))  # Default grey background
             return surface
 
@@ -84,7 +87,7 @@ class RiskGameGUI:
 
                     # Convert to Pygame surface
                     pygame_img = pygame.image.fromstring(recolored_img.tobytes(), recolored_img.size, "RGBA")
-                    scaled_img = pygame.transform.scale(pygame_img, (self.window_width, self.window_height))
+                    scaled_img = pygame.transform.scale(pygame_img, (self.window_width, self.board_height))
                     rect = scaled_img.get_rect(topleft=(0, 0))
 
                     territories[name] = {"image": scaled_img, "rect": rect}
@@ -122,13 +125,16 @@ class RiskGameGUI:
 
     def draw_board(self):
         """Draws the game board in steps."""
-        self.screen.blit(self.background_image, (0, 0))
+        self.screen.blit(self.background_image, (0, 0))  # Draw board at the top
 
         # Step 1: Draw territories
         self.draw_territories()
 
         # Step 2: Draw troop counts
         self.draw_territory_troop_counts()
+
+        # Step 3: Draw control panel at bottom
+        self.draw_control_panel()
 
         pygame.display.flip()
 
@@ -146,7 +152,7 @@ class RiskGameGUI:
 
         # Scale troop number positions from 512x288 to actual window size
         ratio_x = self.window_width / 512.0
-        ratio_y = self.window_height / 288.0
+        ratio_y = self.board_height / 288.0
 
         for name, territory in self.board.territories.items():
             if name not in self.territory_positions:
@@ -163,6 +169,25 @@ class RiskGameGUI:
 
             self.screen.blit(text_surface, text_rect)
 
+    def draw_game_over_screen(self, winner):
+        """Displays a game over screen with the winning player number."""
+        overlay = pygame.Surface((self.window_width, self.board_height))  # Limit overlay to board height
+        overlay.set_alpha(200)  # Semi-transparent overlay
+        overlay.fill((0, 0, 0))  # Dark overlay
+        self.screen.blit(overlay, (0, 0))
+
+        font = pygame.font.Font(FONT_PATH, 80)
+        text = font.render(f"Player {winner} Wins!", True, (255, 255, 255))
+        text_rect = text.get_rect(center=(self.window_width // 2, self.board_height // 2))  # Center in board area
+
+        self.screen.blit(text, text_rect)
+        pygame.display.flip()
+
+    def draw_control_panel(self):
+        """Draws the dark grey control panel at the bottom 10% of the screen."""
+        panel_rect = pygame.Rect(0, self.board_height, self.window_width, self.control_height)
+        pygame.draw.rect(self.screen, (50, 50, 50), panel_rect)  # Dark grey fill
+
     def run(self):
         """Main game loop."""
         while self.running:
@@ -175,5 +200,12 @@ class RiskGameGUI:
                     self.displayed_territories = self.load_territory_images()
 
             self.draw_board()
+
+            # **Check for victory condition**
+            winner = self.board.check_winner()
+            if winner is not None:
+                self.draw_game_over_screen(winner)
+                pygame.time.delay(5000)  # Display for 5 seconds
+                self.running = False  # Exit game loop
 
         pygame.quit()

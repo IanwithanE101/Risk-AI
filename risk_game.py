@@ -43,6 +43,15 @@ class RiskGame:
         """Calculate how many troops a player gets at the start of the game."""
         return max(3, len([t for t in self.board.territories.values() if t.owner == player]) // 3)
 
+    def check_winner(self):
+        """Checks if a single player controls the entire board."""
+        owners = set(territory.owner for territory in self.board.territories.values() if territory.owner is not None)
+
+        if len(owners) == 1:
+            self.game_over = True
+            return owners.pop()  # Return winning player ID
+        return None
+
     def end_phase(self):
         """Move to the next phase or next player if needed."""
         phase_order = ["deploy", "attack", "fortify"]
@@ -105,7 +114,20 @@ class RiskGame:
                 else:
                     attacker.troop_count -= 1
 
-        return defender.troop_count <= 0  # True if defender lost
+        # If attacker wins and captures territory
+        if defender.troop_count <= 0:
+            defender.owner = attacker.owner  # Change ownership
+            defender.troop_count = 1  # Default minimum troop count
+            attacker.troop_count -= 1  # Move one troop automatically
+
+            # **Check for victory immediately after capturing a territory**
+            winner = self.check_winner()
+            if winner:
+                print(f"Game Over! Player {winner} wins.")
+                self.game_over = True
+                return True
+
+        return False  # Attack did not result in victory
 
     def user_attack(self, attack_from, attack_to):
         """User selects an attack move."""

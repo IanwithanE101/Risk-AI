@@ -6,7 +6,9 @@ import json
 # ----------------------------------------------------------------
 
 BOARD_FOLDER = "RiskBoard"
-REPLAY_BUFFER_FOLDER = "ReplayBuffers"
+SCORED_GAMES = "ScoredGames"
+GAME_REPLAY_STORAGE = "GameReplayStorage"
+AI = "AI"
 MISC_FOLDER = "Misc"
 BACKGROUND_IMAGE_PATH = os.path.join(BOARD_FOLDER, "RiskMap.png")
 TERRITORY_MAP_PATH = os.path.join(BOARD_FOLDER, "territory_map.json")
@@ -20,7 +22,7 @@ with open(mapjson, "r") as file:
 
 CUSTOM_BOARDS_FOLDER = "CustomBoards"  # For saving/loading custom boards
 
-SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 576
+SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 656
 PREVIEW_WIDTH, PREVIEW_HEIGHT = 400, 225  # mini UI preview
 
 # Attempt to load territory positions
@@ -34,6 +36,27 @@ else:
 # Define constants
 NUM_TERRITORIES = 42  # Total number of territories
 NUM_PLAYERS = 4       # Total number of players
+
+REWARD_CONFIG = {
+    "DEPLOY_BORDER": 5,
+    "DEPLOY_2_BORDER": 10,
+    "DEPLOY_SAFE": -2,
+    "DEPLOY_COMPLETE_CONTINENT": 15,
+
+    "ATTACK_WIN_TERRITORY": 20,
+    "ATTACK_LEAVE_2_BORDER": 10,
+    "ATTACK_HEAVY_LOSS": -15,
+    "ATTACK_SKIPPED": -5,
+    "ATTACK_ELIMINATE_PLAYER": 50,
+    "ATTACK_COMPLETE_CONTINENT": 50,
+
+    "FORTIFY_BORDER": 10,
+    "FORTIFY_2_BORDER": 10,
+    "FORTIFY_ABANDON_SAFE": 5,
+
+    "GAME_WIN_MULTIPLIER": 1.25,
+    "GAME_LOSE_MULTIPLIER": 0.85
+}
 
 # Information to build board, by tile and neighboring tiles
 territories_with_adjacency = {
