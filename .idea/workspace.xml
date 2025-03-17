@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
-      <change afterPath="$PROJECT_DIR$/game_storage.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Risk-AI-Using-Qtables-and-Genetic-Algorithm.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Risk-AI-Using-Qtables-and-Genetic-Algorithm.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dqn_model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/play_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/play_game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/risk_game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scoring.py" beforeDir="false" afterPath="$PROJECT_DIR$/scoring.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741805707151</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1742226929268</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1742226929268</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
