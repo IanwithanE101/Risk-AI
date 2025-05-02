@@ -15,8 +15,7 @@ from PIL import Image, ImageTk
 from config import BACKGROUND_IMAGE_PATH, CUSTOM_BOARDS_FOLDER, PREVIEW_WIDTH, PREVIEW_HEIGHT, GAME_REPLAY_STORAGE, \
     SCORED_GAMES, AI, REWARD_CONFIG, FONT_PATH
 from enviornment import Board
-from play_game import RiskGameGUI
-from risk_game import RiskGame
+from pygame_gui import RiskGameGUI
 
 
 # ----------------------------------------------------------------
@@ -355,7 +354,7 @@ class MainMenu(tk.Tk):
             for child in self.custom_board_frame.winfo_children():
                 child.destroy()
 
-            self.custom_board = Board(num_players=4)
+            self.custom_board = Board()
             self.custom_board.generate_random_board()
             self.custom_board_preview = MiniBoardPreview(self.custom_board_frame, self.custom_board)
             self.custom_board_preview.pack()
@@ -427,12 +426,14 @@ class MainMenu(tk.Tk):
     def start_game(self):
         """Starts the game using the selected player types and board selection."""
         player_types = [combo.get() for combo in self.player_combos]
+        ai_file_paths = [combo.get() if combo.get() != "None" else None for combo in self.ai_combos]
 
         # Use the selected custom board if enabled, otherwise generate a new one
         if self.use_custom_board_var.get() and self.custom_board is not None:
             board = self.custom_board  # Use preloaded custom board
+            board.ai_file_paths = ai_file_paths  # Set AI paths for players
         else:
-            board = Board(num_players=4, ai_file_paths=self.ai_file_paths)  # Generate a new random board
+            board = Board(ai_file_paths=ai_file_paths)  # Generate a new random board
             board.generate_random_board()
 
         # Initialize RiskGameGUI with the chosen board and player settings
@@ -496,7 +497,7 @@ class MainMenu(tk.Tk):
     def build_dqn_model(self):
         """Builds a new DQN model."""
         model = Sequential([
-            Input(shape=(444,)),  # Input layer: 444 features
+            Input(shape=(696,)),  # Input layer: 696  features
             Dense(512, activation='relu'),
             Dense(512, activation='relu'),
             Dense(256, activation='relu'),

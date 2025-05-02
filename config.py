@@ -10,6 +10,7 @@ SCORED_GAMES = "ScoredGames"
 GAME_REPLAY_STORAGE = "GameReplayStorage"
 AI = "AI"
 MISC_FOLDER = "Misc"
+GUI_ELEMENTS_PATH = "GUI Resources"
 BACKGROUND_IMAGE_PATH = os.path.join(BOARD_FOLDER, "RiskMap.png")
 TERRITORY_MAP_PATH = os.path.join(BOARD_FOLDER, "territory_map.json")
 TERRITORY_IMAGES_FOLDER = os.path.join(BOARD_FOLDER, "territories")
