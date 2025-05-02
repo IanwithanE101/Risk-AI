@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,26 +55,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Enviornment and AI setup.executor": "Run",
-    "Python.Enviornment.executor": "Run",
-    "Python.Play And Visualize.executor": "Run",
-    "Python.Training Qtables.executor": "Run",
-    "Python.config.executor": "Run",
-    "Python.dqn_model.executor": "Run",
-    "Python.enviornment.executor": "Run",
-    "Python.main_menu.executor": "Run",
-    "Python.menu.executor": "Run",
-    "Python.play_game.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Updating-massively",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Enviornment and AI setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Play And Visualize.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Training Qtables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dqn_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.play_game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pygame_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Updating-massively&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm" />
@@ -181,7 +181,39 @@
       <option name="project" value="LOCAL" />
       <updated>1742226929268</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1742230782934</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1742230782934</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1742230801246</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1742230801246</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1746144127204</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746144127204</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+      <option name="closed" value="true" />
+      <created>1746144132731</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746144132731</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

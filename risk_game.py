@@ -10,14 +10,14 @@ class RiskGame:
     - Provides board access for AI training.
     """
 
-    def __init__(self, players):
+    def __init__(self, players, board):
         """
         Initialize a new game.
 
         Args:
             players (list of str): List of player types, e.g. ["User", "AI", "AI", "User"].
         """
-        self.board = Board(num_players=len(players))
+        self.board = board
         self.players = players
         self.current_player = 1
         self.phase = "deploy"
@@ -51,6 +51,25 @@ class RiskGame:
             self.game_over = True
             return owners.pop()  # Return winning player ID
         return None
+
+    def check_winner(self):
+        """Checks if a single player controls the entire board."""
+        owners = set(territory.owner for territory in self.board.territories.values() if territory.owner is not None)
+
+        if len(owners) == 1:
+            self.game_over = True
+            return owners.pop()  # Return winning player ID
+        return None
+
+
+    def game_over(self):
+        "Checks if the game is over/has been won"
+        owners = set(territory.owner for territory in self.board.territories.values() if territory.owner is not None)
+
+        if len(owners) == 1:
+            self.game_over = True
+            return True
+        return False
 
     def end_phase(self):
         """Move to the next phase or next player if needed."""
