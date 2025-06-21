@@ -4,8 +4,71 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures">
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Adding requirements.txt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/FirstAI.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/Fill Them Up Once More.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/Gear.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/Poverty and Famine.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/Rattay Feasts.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/X.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GUI Resources/skalitz 1403.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Misc/FROMAN.TTF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/Africa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/Asia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/Australia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/Europe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/North America.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/ContinentOutlines/South America.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/RiskMap.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Afghanistan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Alaska.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Alberta.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Argentina.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Brazil.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Central_America.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/China.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Congo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/East_Africa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Eastern_Australia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Eastern_US.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Egypt.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Great_Britain.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Greenland.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Iceland.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/India.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Indonesia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Irkutsk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Japan.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Kamchatka.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Madagascar.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Middle_East.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Mongolia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/New_Guinea.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/North_Africa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Northern_Europe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Northwest_Territory.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Ontario.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Peru.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Quebec.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Scandinavia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Siam.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Siberia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/South_Africa.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Southern_Europe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Ukraine.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Ural.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Venezuela.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Western_Australia.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Western_Europe.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Western_US.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territories/Yakutsk.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RiskBoard/territory_map.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/risk_game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,16 +90,16 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "history": [
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
     {
-      "assignee": "IanwithanE101"
+      &quot;assignee&quot;: &quot;IanwithanE101&quot;
     }
   ],
-  "lastFilter": {
-    "assignee": "IanwithanE101"
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;IanwithanE101&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/IanwithanE101/Risk-AI-Using-Qtables-and-Genetic-Algorithm.git&quot;,
@@ -61,30 +124,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Enviornment and AI setup.executor": "Run",
-    "Python.Enviornment.executor": "Run",
-    "Python.Play And Visualize.executor": "Run",
-    "Python.Training Qtables.executor": "Run",
-    "Python.config.executor": "Run",
-    "Python.dqn_model.executor": "Run",
-    "Python.enviornment.executor": "Run",
-    "Python.game_manager.executor": "Run",
-    "Python.main_menu.executor": "Run",
-    "Python.menu.executor": "Run",
-    "Python.play_game.executor": "Run",
-    "Python.pygame_gui.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#6 on Updating-massively",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Enviornment and AI setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Play And Visualize.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Training Qtables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dqn_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.play_game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pygame_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Updating-massively&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\risk" />
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm" />
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\Misc" />
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\RiskBoard" />
@@ -227,7 +291,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746144587205</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Adding requirements.txt">
+      <option name="closed" value="true" />
+      <created>1746161402531</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1746161402531</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -238,6 +310,7 @@
     <MESSAGE value="Re added the save button, renamed SlickMenu to Main Menu and changed the window icon" />
     <MESSAGE value="Implemented some part of gameplay for the deploy phase and reorganized alot of stuff." />
     <MESSAGE value="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed from multipe AI to focusing on DQN, implemented the DQN, restructured the playing of the game so it provided a structure for imitation learning, and reogranized the file giving it proper python naming structures" />
+    <MESSAGE value="Adding requirements.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding requirements.txt" />
   </component>
 </project>

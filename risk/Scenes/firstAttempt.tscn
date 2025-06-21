@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://belh1is8ned8g"]
+
+[ext_resource type="PackedScene" uid="uid://dq2w5ckmoet3s" path="res://Scenes/Territories.tscn" id="2_oyexr"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Territories" parent="." instance=ExtResource("2_oyexr")]
+scale = Vector2(1, 0.99322)

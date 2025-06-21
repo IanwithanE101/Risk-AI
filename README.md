@@ -6,3 +6,9 @@ This program allows users to train their own DQN AI models for playing Risk or u
 
 Thanks for checking it out
 -Eian
+
+
+Credits
+
+RiskBoard SVG:
+By Gr0gmint - based on a Risk board i own., CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=5184827

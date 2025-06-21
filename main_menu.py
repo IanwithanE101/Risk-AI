@@ -4,6 +4,9 @@ import json
 import sys
 import tkinter as tk
 import tkinter.messagebox
+
+import numpy as np
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO and WARNING messages
 import tensorflow as tf
 import pickle
@@ -497,13 +500,13 @@ class MainMenu(tk.Tk):
     def build_dqn_model(self):
         """Builds a new DQN model."""
         model = Sequential([
-            Input(shape=(696,)),  # Input layer: 696  features
+            Input(shape=(810,)),  # 405 current + 405 previous
             Dense(512, activation='relu'),
             Dense(512, activation='relu'),
             Dense(256, activation='relu'),
             Dense(256, activation='relu'),
             Dense(256, activation='relu'),
-            Dense(177)  # Output layer: 177 actions
+            Dense(178)  # Output layer: 178 actions, last 1 being a boolean of whether to cash out the cards in hand into troops.
         ])
         model.compile(optimizer=Adam(learning_rate=0.001), loss='mse')
         return model
@@ -526,7 +529,7 @@ class MainMenu(tk.Tk):
         )
 
     def perform_training(self, model, states, actions, rewards, next_states, batch_size=64, gamma=0.99):
-        """Trains the model using the DQN update rule."""
+        """Trains the model using the DQN update rule, now supporting 178 output nodes."""
         if len(states) < batch_size:
             return
 
@@ -541,8 +544,13 @@ class MainMenu(tk.Tk):
 
         for i in range(batch_size):
             action = batch_actions[i]
-            target_q = batch_rewards[i] + gamma * np.max(next_q_values[i])
-            q_values[i][action] = target_q
+            reward = batch_rewards[i]
+            future_q = np.max(next_q_values[i])
+            target_q = reward + gamma * future_q
+
+            # Handle special "cash out" output at index 177
+            if 0 <= action < 178:
+                q_values[i][action] = target_q
 
         model.fit(batch_states, q_values, epochs=1, verbose=0, batch_size=batch_size)
 

@@ -6,7 +6,7 @@ import json
 
 import numpy as np
 
-from config import GAME_REPLAY_STORAGE
+from config import GAME_REPLAY_STORAGE, territory_card_types
 
 from config import TERRITORY_IMAGES_FOLDER, NUM_PLAYERS, territories_with_adjacency, continent_bonuses
 
@@ -23,6 +23,7 @@ class Board:
         """
         self.num_players = NUM_PLAYERS  # Risk always has 4 players
         self.territories = {name: Territory(name) for name in territories_with_adjacency}
+        self.cards = CardManager()  # New card system
 
         # Ensure AI file paths is a list of exactly 4 entries (default to None if missing)
         if ai_file_paths is None or len(ai_file_paths) != 4:
@@ -94,7 +95,7 @@ class Board:
         return None  # No winner yet
 
     def generate_random_board(self):
-        self.territories = Territory.create_territories_copy()
+        self.territories = Territory.initialize_territories()
         territory_names = list(self.territories.keys())
         random.shuffle(territory_names)
 
@@ -116,7 +117,7 @@ class Board:
             idx += portion
 
     def generate_unowned_board(self):
-        self.territories = Territory.create_territories_copy()
+        self.territories = Territory.initialize_territories()
         for terr in self.territories.values():
             terr.set_owner(None)
             terr.troop_count = 0
@@ -200,8 +201,15 @@ class Board:
         # ---- 13. Turn Counter (1) ----
         input_vector.append(turn)
 
-        # ---- 14. Previous Turn Input (Last 348 Inputs) ----
-        input_vector.extend(self.get_previous_input(player_id, phase))
+        # ---- 14. Cards Owned (One-Hot: 24) ----
+        player_cards = self.cards.get_player_cards(player_id)
+        owned_territories = set(card.territory for card in player_cards)
+
+        for territory in territories_with_adjacency:
+            input_vector.append(1 if territory in owned_territories else 0)
+
+        # ---- 15. Previous Turn Input
+        input_vector.extend(self.get_previous_input(player_id, phase))  # Will return 405 now
 
         return np.array(input_vector, dtype=np.float32)
 
@@ -209,7 +217,7 @@ class Board:
         """Fetches previous turn input vector if available; otherwise, returns zeros."""
         game_file = os.path.join(GAME_REPLAY_STORAGE, "current_game.json")
         if not os.path.exists(game_file):
-            return [0] * 348  # No previous data
+            return [0] * 405  # No previous data
 
         with open(game_file, "r") as f:
             game_data = json.load(f)
@@ -217,9 +225,9 @@ class Board:
         # Find the most recent turn where this player acted in the same phase
         for move in reversed(game_data["moves"]):
             if move["player"] == player_id and move["phase"] == phase:
-                return move["state"][:348]
+                return move["state"][:405]
 
-        return [0] * 348  # Default if no previous input exists
+        return [0] * 405  # Default if no previous input exists
 
 
 # ----------------------------------------------------------------
@@ -254,16 +262,71 @@ class Territory:
 
     @classmethod
     def initialize_territories(cls):
-        for name in territories_with_adjacency:
-            cls(name)
-
-    @classmethod
-    def create_territories_copy(cls):
         new_dict = {}
         for name in territories_with_adjacency:
             new_t = Territory(name)
             new_dict[name] = new_t
         return new_dict
 
+class Card:
+    def __init__(self, territory, troop_type):
+        self.territory = territory
+        self.troop_type = troop_type  # "Infantry", "Cavalry", or "Artillery"
+        self.owner = 0  # 0 = unassigned, 1–4 = player ID
 
-Territory.initialize_territories()
+    def assign_to(self, player_id):
+        """Assigns this card to a player (1–4)."""
+        if player_id in [1, 2, 3, 4]:
+            self.owner = player_id
+
+    def reset(self):
+        """Returns the card to the unassigned pool."""
+        self.owner = 0
+
+    def is_unassigned(self):
+        return self.owner == 0
+
+
+class CardManager:
+    def __init__(self):
+        """Creates all cards using the territory_card_types from config."""
+        self.cards = []
+
+        for territory, troop_type in territory_card_types.items():
+            self.cards.append(Card(territory, troop_type))
+
+    def draw_card(self):
+        """Randomly selects and assigns an unowned card. Returns the Card or None if none available."""
+        unassigned = [card for card in self.cards if card.is_unassigned()]
+        if not unassigned:
+            return None
+        return random.choice(unassigned)
+
+    def assign_card(self, card, player_id):
+        """Assigns a specific card object to a player."""
+        if card and card.is_unassigned():
+            card.assign_to(player_id)
+
+    def play_cards(self, card_list):
+        """
+        Plays (returns to pool) a list of Card objects.
+        Used when a player turns in cards.
+        """
+        for card in card_list:
+            card.reset()
+
+    def get_player_cards(self, player_id):
+        """Returns a list of Card objects owned by the given player."""
+        return [card for card in self.cards if card.owner == player_id]
+
+    def get_all_cards(self):
+        """Returns all card objects."""
+        return self.cards
+
+    def get_card_summary(self, player_id):
+        """Returns a dictionary of {territory: troop_type} for the given player."""
+        return {
+            card.territory: card.troop_type
+            for card in self.cards
+            if card.owner == player_id
+        }

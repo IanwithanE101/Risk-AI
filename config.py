@@ -105,6 +105,53 @@ territories_with_adjacency = {
     "Kamchatka": ["Japan", "Irkutsk", "Yakutsk", "Mongolia", "Alaska"],
 }
 
+# Card type assignment for each territory
+territory_card_types = {
+    "Alaska": "Infantry",
+    "Northwest_Territory": "Cavalry",
+    "Alberta": "Artillery",
+    "Ontario": "Infantry",
+    "Greenland": "Cavalry",
+    "Quebec": "Artillery",
+    "Eastern_US": "Infantry",
+    "Western_US": "Cavalry",
+    "Central_America": "Artillery",
+    "Venezuela": "Infantry",
+    "Peru": "Cavalry",
+    "Argentina": "Artillery",
+    "Brazil": "Infantry",
+    "North_Africa": "Cavalry",
+    "Egypt": "Artillery",
+    "East_Africa": "Infantry",
+    "Congo": "Cavalry",
+    "South_Africa": "Artillery",
+    "Madagascar": "Infantry",
+    "Western_Europe": "Cavalry",
+    "Great_Britain": "Artillery",
+    "Iceland": "Infantry",
+    "Scandinavia": "Cavalry",
+    "Northern_Europe": "Artillery",
+    "Southern_Europe": "Infantry",
+    "Ukraine": "Cavalry",
+    "Middle_East": "Artillery",
+    "India": "Infantry",
+    "Siam": "Cavalry",
+    "Indonesia": "Artillery",
+    "New_Guinea": "Infantry",
+    "Western_Australia": "Cavalry",
+    "Eastern_Australia": "Artillery",
+    "China": "Infantry",
+    "Afghanistan": "Cavalry",
+    "Ural": "Artillery",
+    "Siberia": "Infantry",
+    "Mongolia": "Cavalry",
+    "Japan": "Artillery",
+    "Irkutsk": "Infantry",
+    "Yakutsk": "Cavalry",
+    "Kamchatka": "Artillery",
+}
+
+
 # Continents
 continents = {
     "North America": ["Alaska", "Northwest_Territory", "Alberta", "Ontario", "Quebec", "Western_US", "Eastern_US", "Central_America", "Greenland"],
