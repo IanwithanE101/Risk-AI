@@ -32,3 +32,8 @@ func _on_input(_v, ev, _s):
 func _apply_colour():
 	var base: Color = colours[idx]   # ✅ explicitly typed
 	sprite.modulate = base.darkened(1.0 - dim_amount) if hovered else base
+	
+func update_owner(owner_id: int, troop_count: int = 0):
+	idx = clamp(owner_id - 1, 0, colours.size() - 1)
+	sprite.modulate = colours[idx]
+	# You can also show troop_count in a Label2D here if needed

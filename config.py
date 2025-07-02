@@ -17,10 +17,6 @@ TERRITORY_IMAGES_FOLDER = os.path.join(BOARD_FOLDER, "territories")
 mapjson = os.path.join(BOARD_FOLDER, "territory_map.json")
 FONT_PATH = os.path.join(MISC_FOLDER, "FROMAN.TTF")
 
-# Read and parse the territory_map.json file and put it into a dictionary
-with open(mapjson, "r") as file:
-    territory_positions = json.load(file)
-
 CUSTOM_BOARDS_FOLDER = "CustomBoards"  # For saving/loading custom boards
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 656

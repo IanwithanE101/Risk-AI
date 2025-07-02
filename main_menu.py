@@ -7,6 +7,8 @@ import tkinter.messagebox
 
 import numpy as np
 
+from game_manager import GameManager
+
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO and WARNING messages
 import tensorflow as tf
 import pickle
@@ -431,17 +433,23 @@ class MainMenu(tk.Tk):
         player_types = [combo.get() for combo in self.player_combos]
         ai_file_paths = [combo.get() if combo.get() != "None" else None for combo in self.ai_combos]
 
-        # Use the selected custom board if enabled, otherwise generate a new one
-        if self.use_custom_board_var.get() and self.custom_board is not None:
-            board = self.custom_board  # Use preloaded custom board
-            board.ai_file_paths = ai_file_paths  # Set AI paths for players
+        # If using custom board from preview editor
+        if self.use_custom_board_var.get() and self.custom_board_preview:
+            board = self.custom_board_preview.board  # ✅ Pull the actual live board from the preview
+            board.ai_file_paths = ai_file_paths
         else:
-            board = Board(ai_file_paths=ai_file_paths)  # Generate a new random board
+            board = Board(ai_file_paths=ai_file_paths)
             board.generate_random_board()
 
-        # Initialize RiskGameGUI with the chosen board and player settings
-        game_gui = RiskGameGUI(board, player_types)
-        game_gui.run()
+        # Debug: Confirm it's populated
+        for name, t in board.territories.items():
+            print(f"{name}: owner={t.owner}, troops={t.troop_count}")
+
+        # Launch server-side simulation
+        manager = GameManager(board=board, player_types=player_types)
+        manager.start_game()
+
+        # TODO: Add launch for Godot GUI Risk frontend
 
     def train_ai(self):
         """Trains an AI model using selected scored games."""

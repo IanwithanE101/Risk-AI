@@ -1,4 +1,6 @@
+import time
 from risk_game import RiskGame
+from risk_server import RiskServer
 
 
 class GameManager:
@@ -23,8 +25,20 @@ class GameManager:
         self.replay_data = []  # for storing (state, action, next_state, reward/done)
 
     def start_game(self):
-        # TODO: Begin main game loop
-        pass
+        # Start the TCP server
+        self.server = RiskServer(self.player_types, self.board)
+        print("RiskServer initialized.")
+
+        while True:
+            # Rotate ownership of all territories
+            for territory in self.board.territories.values():
+                current = territory.owner or 0
+                territory.owner = (current % 4) + 1  # Loops 1–4
+
+            # Send updated board state to Godot
+            self.server.send_board_state()
+            print("Sent updated board to Godot.")
+            time.sleep(5)
 
     def play_turn(self):
         # TODO: Execute all 3 phases for the current player

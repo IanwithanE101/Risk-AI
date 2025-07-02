@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://belh1is8ned8g"]
+[gd_scene load_steps=3 format=3 uid="uid://belh1is8ned8g"]
 
+[ext_resource type="Script" uid="uid://cer3yphwoyv17" path="res://Scenes/RiskClient.gd" id="1_hio00"]
 [ext_resource type="PackedScene" uid="uid://dq2w5ckmoet3s" path="res://Scenes/Territories.tscn" id="2_oyexr"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_hio00")
 
 [node name="Territories" parent="." instance=ExtResource("2_oyexr")]
 scale = Vector2(1, 0.99322)
