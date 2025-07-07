@@ -22,14 +22,6 @@ CUSTOM_BOARDS_FOLDER = "CustomBoards"  # For saving/loading custom boards
 SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 656
 PREVIEW_WIDTH, PREVIEW_HEIGHT = 400, 225  # mini UI preview
 
-# Attempt to load territory positions
-if not os.path.exists(TERRITORY_MAP_PATH):
-    print(f"WARNING: {TERRITORY_MAP_PATH} not found.")
-    territory_positions = {}
-else:
-    with open(TERRITORY_MAP_PATH, "r") as f:
-        territory_positions = json.load(f)
-
 # Define constants
 NUM_TERRITORIES = 42  # Total number of territories
 NUM_PLAYERS = 4       # Total number of players
