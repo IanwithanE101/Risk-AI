@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvv4bs3iafwph"]
+
+[ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="1_iw5qc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dvc68"]
+bg_color = Color(0.687215, 0.687215, 0.687215, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_blend = true
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Feedback" type="Label" parent="."]
+z_index = 3
+offset_left = 11.0
+offset_top = 1046.0
+offset_right = 238.0
+offset_bottom = 1080.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_iw5qc")
+theme_override_font_sizes/font_size = 22
+text = "Troops To Deploy:"
+vertical_alignment = 1
+
+[node name="Instructions" type="Label" parent="."]
+z_index = 3
+offset_left = 800.0
+offset_top = 1040.0
+offset_right = 1104.0
+offset_bottom = 1072.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_iw5qc")
+theme_override_font_sizes/font_size = 22
+text = "Select a Territory to Deploy"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TroopDeployPopup" type="PopupPanel" parent="."]
+initial_position = 1
+size = Vector2i(500, 120)
+visible = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_dvc68")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TroopDeployPopup"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 490.0
+offset_bottom = 110.0
+
+[node name="TroopSelection" type="Label" parent="TroopDeployPopup/VBoxContainer"]
+layout_mode = 2
+text = "Number of Troops"
+horizontal_alignment = 1
+
+[node name="Slider" type="HSlider" parent="TroopDeployPopup/VBoxContainer"]
+layout_mode = 2
+
+[node name="Confirm" type="Button" parent="TroopDeployPopup/VBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="TroopDeployPopup/VBoxContainer"]
+layout_mode = 2
+text = "Cancel"

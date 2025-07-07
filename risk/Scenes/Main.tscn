@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://1ysll7xybxv2"]
+
+[ext_resource type="Script" uid="uid://cer3yphwoyv17" path="res://Scenes/RiskClient.gd" id="1_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://dq2w5ckmoet3s" path="res://Scenes/Territories.tscn" id="2_pbw6q"]
+[ext_resource type="Script" uid="uid://4vgn18wrq0yq" path="res://Scenes/end_button.gd" id="3_v1gob"]
+[ext_resource type="Script" uid="uid://buaxoaylntgpj" path="res://Controls.gd" id="4_50glp"]
+[ext_resource type="PackedScene" uid="uid://bvv4bs3iafwph" path="res://Scenes/DeployControls.tscn" id="4_jw32o"]
+[ext_resource type="PackedScene" uid="uid://dostu3hinpwm7" path="res://Scenes/AttackControls.tscn" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://d2dxj8rl1c22g" path="res://Scenes/FortifyControls.tscn" id="6_v1gob"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_rgh2o")
+
+[node name="Territories" parent="." instance=ExtResource("2_pbw6q")]
+scale = Vector2(1, 0.99322)
+
+[node name="TroopLabel" parent="Territories/Alaska" index="2"]
+text = "50"
+
+[node name="End_Button" type="Button" parent="."]
+offset_left = 1694.0
+offset_top = 1037.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("3_v1gob")
+
+[node name="Controls" type="Node" parent="."]
+script = ExtResource("4_50glp")
+
+[node name="DeployControls" parent="Controls" instance=ExtResource("4_jw32o")]
+
+[node name="Feedback" parent="Controls/DeployControls" index="0"]
+offset_top = 1039.0
+
+[node name="Instructions" parent="Controls/DeployControls" index="1"]
+offset_bottom = 1080.0
+
+[node name="AttackControls" parent="Controls" instance=ExtResource("5_pbw6q")]
+
+[node name="Feedback" parent="Controls/AttackControls" index="1"]
+offset_top = 1039.0
+offset_right = 332.0
+
+[node name="Instructions" parent="Controls/AttackControls" index="2"]
+offset_left = 777.0
+offset_top = 1039.0
+offset_right = 1170.0
+offset_bottom = 1080.0
+
+[node name="FortifyControls" parent="Controls" instance=ExtResource("6_v1gob")]
+
+[node name="Feedback" parent="Controls/FortifyControls" index="0"]
+offset_top = 1039.0
+offset_right = 470.0
+
+[node name="Instructions" parent="Controls/FortifyControls" index="1"]
+offset_left = 652.0
+offset_top = 1039.0
+offset_right = 1277.0
+offset_bottom = 1080.0
+
+[editable path="Territories"]
+[editable path="Controls/DeployControls"]
+[editable path="Controls/AttackControls"]
+[editable path="Controls/FortifyControls"]
