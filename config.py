@@ -17,22 +17,10 @@ TERRITORY_IMAGES_FOLDER = os.path.join(BOARD_FOLDER, "territories")
 mapjson = os.path.join(BOARD_FOLDER, "territory_map.json")
 FONT_PATH = os.path.join(MISC_FOLDER, "FROMAN.TTF")
 
-# Read and parse the territory_map.json file and put it into a dictionary
-with open(mapjson, "r") as file:
-    territory_positions = json.load(file)
-
 CUSTOM_BOARDS_FOLDER = "CustomBoards"  # For saving/loading custom boards
 
 SCREEN_WIDTH, SCREEN_HEIGHT = 1024, 656
 PREVIEW_WIDTH, PREVIEW_HEIGHT = 400, 225  # mini UI preview
-
-# Attempt to load territory positions
-if not os.path.exists(TERRITORY_MAP_PATH):
-    print(f"WARNING: {TERRITORY_MAP_PATH} not found.")
-    territory_positions = {}
-else:
-    with open(TERRITORY_MAP_PATH, "r") as f:
-        territory_positions = json.load(f)
 
 # Define constants
 NUM_TERRITORIES = 42  # Total number of territories
@@ -104,6 +92,53 @@ territories_with_adjacency = {
     "Yakutsk": ["Siberia", "Irkutsk", "Kamchatka"],
     "Kamchatka": ["Japan", "Irkutsk", "Yakutsk", "Mongolia", "Alaska"],
 }
+
+# Card type assignment for each territory
+territory_card_types = {
+    "Alaska": "Infantry",
+    "Northwest_Territory": "Cavalry",
+    "Alberta": "Artillery",
+    "Ontario": "Infantry",
+    "Greenland": "Cavalry",
+    "Quebec": "Artillery",
+    "Eastern_US": "Infantry",
+    "Western_US": "Cavalry",
+    "Central_America": "Artillery",
+    "Venezuela": "Infantry",
+    "Peru": "Cavalry",
+    "Argentina": "Artillery",
+    "Brazil": "Infantry",
+    "North_Africa": "Cavalry",
+    "Egypt": "Artillery",
+    "East_Africa": "Infantry",
+    "Congo": "Cavalry",
+    "South_Africa": "Artillery",
+    "Madagascar": "Infantry",
+    "Western_Europe": "Cavalry",
+    "Great_Britain": "Artillery",
+    "Iceland": "Infantry",
+    "Scandinavia": "Cavalry",
+    "Northern_Europe": "Artillery",
+    "Southern_Europe": "Infantry",
+    "Ukraine": "Cavalry",
+    "Middle_East": "Artillery",
+    "India": "Infantry",
+    "Siam": "Cavalry",
+    "Indonesia": "Artillery",
+    "New_Guinea": "Infantry",
+    "Western_Australia": "Cavalry",
+    "Eastern_Australia": "Artillery",
+    "China": "Infantry",
+    "Afghanistan": "Cavalry",
+    "Ural": "Artillery",
+    "Siberia": "Infantry",
+    "Mongolia": "Cavalry",
+    "Japan": "Artillery",
+    "Irkutsk": "Infantry",
+    "Yakutsk": "Cavalry",
+    "Kamchatka": "Artillery",
+}
+
 
 # Continents
 continents = {

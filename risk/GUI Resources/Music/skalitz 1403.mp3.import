@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cf48xqtgwghh6"
+path="res://.godot/imported/skalitz 1403.mp3-2d9e47f5d169813d024afdc9c77f7715.mp3str"
+
+[deps]
+
+source_file="res://GUI Resources/Music/skalitz 1403.mp3"
+dest_files=["res://.godot/imported/skalitz 1403.mp3-2d9e47f5d169813d024afdc9c77f7715.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

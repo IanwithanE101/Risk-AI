@@ -21,7 +21,7 @@ class RiskGame:
         self.players = players
         self.current_player = 1
         self.phase = "deploy"
-        self.troops_to_deploy = {p: self.calculate_initial_troops(p) for p in range(1, len(players) + 1)}
+        self.troops_to_deploy = {p: self.calculate_troops_to_deploy(p) for p in range(1, len(players) + 1)}
         self.game_over = False
 
     # ------------------------------
@@ -39,11 +39,11 @@ class RiskGame:
         """Return the current game phase."""
         return self.phase
 
-    def calculate_initial_troops(self, player):
+    def calculate_troops_to_deploy(self, player):
         """Calculate how many troops a player gets at the start of the game."""
         return max(3, len([t for t in self.board.territories.values() if t.owner == player]) // 3)
 
-    def check_winner(self):
+    def check_if_winner(self):
         """Checks if a single player controls the entire board."""
         owners = set(territory.owner for territory in self.board.territories.values() if territory.owner is not None)
 
@@ -51,16 +51,6 @@ class RiskGame:
             self.game_over = True
             return owners.pop()  # Return winning player ID
         return None
-
-    def check_winner(self):
-        """Checks if a single player controls the entire board."""
-        owners = set(territory.owner for territory in self.board.territories.values() if territory.owner is not None)
-
-        if len(owners) == 1:
-            self.game_over = True
-            return owners.pop()  # Return winning player ID
-        return None
-
 
     def game_over(self):
         "Checks if the game is over/has been won"
@@ -82,7 +72,7 @@ class RiskGame:
             self.current_player += 1
             if self.current_player > len(self.players):
                 self.current_player = 1
-            self.troops_to_deploy[self.current_player] = self.calculate_initial_troops(self.current_player)
+            self.troops_to_deploy[self.current_player] = self.calculate_troops_to_deploy(self.current_player)
         else:
             # Move to the next phase
             self.phase = phase_order[phase_index + 1]
