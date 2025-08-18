@@ -4,7 +4,9 @@ import json
 import sys
 import tkinter as tk
 import tkinter.messagebox
-
+import subprocess
+import signal
+import psutil
 import numpy as np
 
 from game_manager import GameManager
@@ -36,6 +38,10 @@ class MainMenu(tk.Tk):
 
         # Ensure AI folder exists
         os.makedirs(AI, exist_ok=True)
+
+        # Server process tracking
+        self.server_process = None
+        self.godot_process = None
 
         self.style = ttk.Style(self)
         self._configure_style()
@@ -309,8 +315,56 @@ class MainMenu(tk.Tk):
         start_button = ttk.Button(container, text="Start Game", command=self.start_game)
         start_button.grid(row=10, column=2, sticky="e", padx=5, pady=10)
 
+        # Stop Server Button (NEW)
+        stop_button = ttk.Button(container, text="Stop Server", command=self.stop_server)
+        stop_button.grid(row=11, column=2, sticky="e", padx=5, pady=5)
+
         self.toggle_ai_lock()  # Ensure AI dropdowns are initially locked
 
+    def stop_server(self):
+        """Stops the Risk server and all related processes"""
+        print("🛑 Stopping Risk server and related processes...")
+
+        try:
+            # Kill any Python processes running Risk-related scripts
+            risk_script_names = ['risk_server.py', 'game_manager.py']
+            killed_count = 0
+
+            for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+                try:
+                    if proc.info['name'] in ['python.exe', 'python']:
+                        cmdline = proc.info['cmdline']
+                        if cmdline and any(script in ' '.join(cmdline) for script in risk_script_names):
+                            # Don't kill the current main_menu.py process
+                            if proc.pid != os.getpid():
+                                print(f"🔄 Killing Python process {proc.pid}")
+                                proc.terminate()
+                                proc.wait(timeout=3)
+                                killed_count += 1
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                    pass
+
+            # Kill processes using port 9999 (Risk server port)
+            for proc in psutil.process_iter(['pid', 'name', 'connections']):
+                try:
+                    for conn in proc.connections():
+                        if conn.laddr.port == 9999:
+                            if proc.pid != os.getpid():
+                                print(f"🔄 Killing process {proc.pid} using port 9999")
+                                proc.terminate()
+                                proc.wait(timeout=3)
+                                killed_count += 1
+                                break
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                    pass
+
+            if killed_count > 0:
+                tk.messagebox.showinfo("Server Stopped", f"Killed {killed_count} processes.")
+            else:
+                tk.messagebox.showinfo("Server Status", "No server processes found.")
+
+        except Exception as e:
+            tk.messagebox.showerror("Error", f"Error stopping server: {str(e)}")
     # --------------------------
     # AI SELECTION HELPERS
     # --------------------------

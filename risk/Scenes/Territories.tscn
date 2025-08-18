@@ -1,7 +1,7 @@
 [gd_scene load_steps=47 format=3 uid="uid://dq2w5ckmoet3s"]
 
 [ext_resource type="Texture2D" uid="uid://64pwhwcjydah" path="res://GUI Resources/Map/Ocean.png" id="1_lreeb"]
-[ext_resource type="Script" uid="uid://c7jqkwo3ody08" path="res://Scenes/TerritoryScript.gd" id="1_ufu1v"]
+[ext_resource type="Script" uid="uid://c7jqkwo3ody08" path="res://Scripts/TerritoryScript.gd" id="1_ufu1v"]
 [ext_resource type="Texture2D" uid="uid://d0hso8006hh8m" path="res://GUI Resources/Territories/Afghanistan.png" id="2_ode5q"]
 [ext_resource type="Texture2D" uid="uid://d3htovih8tdvd" path="res://GUI Resources/Territories/Alaska.png" id="3_s2oc2"]
 [ext_resource type="Texture2D" uid="uid://btvssmcp5vaba" path="res://GUI Resources/Territories/Northwest_Territory.png" id="4_7u0fe"]

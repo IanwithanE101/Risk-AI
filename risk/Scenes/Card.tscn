@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2vaiuu1mqg8c"]
+
+[ext_resource type="Texture2D" uid="uid://cvd5slgqr2k4m" path="res://GUI Resources/UI Elements/InfantryCard.png" id="1_kphy1"]
+[ext_resource type="Script" uid="uid://cyjklgd7hwh2l" path="res://Scripts/Card.gd" id="1_wejov"]
+[ext_resource type="Texture2D" uid="uid://dhy2aqwes0d0w" path="res://GUI Resources/UI Elements/CavalryCard.png" id="2_wejov"]
+[ext_resource type="Texture2D" uid="uid://ci4hj5d33ty5w" path="res://GUI Resources/UI Elements/CannonCard.png" id="3_c6tr3"]
+[ext_resource type="Texture2D" uid="uid://bm1gqdjmsr1e1" path="res://GUI Resources/UI Elements/WildCard.png" id="4_1geux"]
+[ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="5_13sua"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pbuqb"]
+font = ExtResource("5_13sua")
+font_size = 30
+font_color = Color(1, 0.133333, 0.145098, 1)
+
+[node name="Card" type="Control"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 200)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 150.0
+offset_bottom = 200.0
+script = ExtResource("1_wejov")
+
+[node name="WildcardImage" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 350.0
+texture = ExtResource("4_1geux")
+expand_mode = 5
+
+[node name="CavalryImage" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 350.0
+texture = ExtResource("2_wejov")
+expand_mode = 5
+
+[node name="ArtilleryImage" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 350.0
+texture = ExtResource("3_c6tr3")
+expand_mode = 5
+
+[node name="InfantryImage" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 250.0
+offset_bottom = 350.0
+texture = ExtResource("1_kphy1")
+expand_mode = 5
+
+[node name="TerritoryLabel" type="Label" parent="."]
+clip_contents = true
+layout_mode = 0
+offset_top = 8.0
+offset_right = 250.0
+offset_bottom = 43.0
+text = "Territory Name"
+label_settings = SubResource("LabelSettings_pbuqb")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+clip_text = true
