@@ -6,6 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Changed it to use Godot instead of Pygame, currently in the process of finishing out the python so that the game is actually playable, and the ai can play against itself.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Controls.gd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Controls.gd.uid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/AttackControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/AttackControls.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/DeployControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/DeployControls.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/FortifyControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/FortifyControls.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/Main.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/Main.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/RiskClient.gd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/RiskClient.gd.uid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/Territories.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/Territories.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/TerritoryScript.gd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/TerritoryScript.gd.uid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/end_button.gd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/end_button.gd.uid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/firstAttempt.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/firstAttempt.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/risk/project.godot" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/risk_server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -269,7 +288,15 @@
       <option name="project" value="LOCAL" />
       <updated>1751855144767</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Changed it to use Godot instead of Pygame, currently in the process of finishing out the python so that the game is actually playable, and the ai can play against itself.">
+      <option name="closed" value="true" />
+      <created>1754236726394</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1754236726394</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

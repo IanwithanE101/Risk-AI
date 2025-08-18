@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtncqv14yu3b3"]
+
+[ext_resource type="Script" uid="uid://bmwaghdk3pce8" path="res://Scripts/GeneralUI.gd" id="1_n3c7q"]
+[ext_resource type="Script" uid="uid://4vgn18wrq0yq" path="res://Scripts/end_button.gd" id="2_aofbv"]
+[ext_resource type="Theme" uid="uid://c4lf1osfvgf32" path="res://GUI Resources/Theme.tres" id="3_mw4pd"]
+[ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="4_ev7un"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jmddc"]
+bg_color = Color(0.519723, 0.398572, 0.321771, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_blend = true
+corner_detail = 10
+
+[node name="GeneralUI" type="Node2D"]
+script = ExtResource("1_n3c7q")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_top = 1032.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.552941, 0.443137, 0.368627, 1)
+
+[node name="End_Button" type="Button" parent="."]
+offset_left = 1694.0
+offset_top = 1040.0
+offset_right = 1912.0
+offset_bottom = 1072.0
+theme = ExtResource("3_mw4pd")
+text = "End Turn"
+script = ExtResource("2_aofbv")
+
+[node name="Cards" type="Button" parent="."]
+offset_left = 8.0
+offset_top = 1040.0
+offset_right = 226.0
+offset_bottom = 1072.0
+theme = ExtResource("3_mw4pd")
+text = "Cards"
+
+[node name="CardsPopup" type="PopupPanel" parent="Cards"]
+auto_translate_mode = 1
+initial_position = 1
+size = Vector2i(1400, 520)
+visible = true
+unresizable = false
+borderless = false
+always_on_top = true
+theme_override_styles/panel = SubResource("StyleBoxFlat_jmddc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Cards/CardsPopup"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 1398.0
+offset_bottom = 518.0
+theme_override_constants/separation = 19
+
+[node name="Info" type="Label" parent="Cards/CardsPopup/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_mw4pd")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/line_spacing = 0
+theme_override_constants/paragraph_spacing = 0
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("4_ev7un")
+theme_override_font_sizes/font_size = 25
+text = "Your Cards
+Select cards to turn them in (must select 3)"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Cards/CardsPopup/VBoxContainer"]
+custom_minimum_size = Vector2(1350, 350)
+layout_mode = 2
+theme_override_constants/separation = 275
+
+[node name="Confirm" type="Button" parent="Cards/CardsPopup/VBoxContainer"]
+custom_minimum_size = Vector2(250, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("3_mw4pd")
+text = "Confirm"
+icon_alignment = 1

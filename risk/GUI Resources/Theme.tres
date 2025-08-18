@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c4lf1osfvgf32"]
+
+[ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="1_vn5fj"]
+
+[resource]
+default_font = ExtResource("1_vn5fj")
+default_font_size = 25

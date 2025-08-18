@@ -84,6 +84,9 @@ class RiskServer:
         elif command_type == "deploy_troops":
             print("🔍 SERVER: Routing to deploy troops handler")
             self.handle_deploy_troops(command)
+        elif command_type == "request_player_cards":
+            print("🔍 SERVER: Routing to player cards handler")
+            self.handle_player_cards_request(command)
         else:
             print(f"❓ SERVER: Unknown command type: {command_type}")
         # Add other command handlers here
@@ -195,6 +198,45 @@ class RiskServer:
         for name, territory in self.board.territories.items():
             self.send_territory_update(name, territory.owner, territory.troop_count)
         print("✅ Full board state sent")
+
+    def handle_player_cards_request(self, command):
+        """Handles request for current player's cards from Godot."""
+
+        # Get current player from the game's internal state
+        current_player_id = self.game.get_current_player()
+
+        print(f"🃏 SERVER: Handling card request for current Player {current_player_id}")
+
+        # Get player's cards from the card manager
+        try:
+            player_cards = self.board.cards.get_player_cards(current_player_id)
+
+            # Convert Card objects to JSON-serializable format
+            cards_data = []
+            for card in player_cards:
+                cards_data.append({
+                    "name": card.territory,
+                    "type": card.troop_type
+                })
+
+            print(f"🃏 SERVER: Found {len(cards_data)} cards for current Player {current_player_id}")
+            for i, card in enumerate(cards_data):
+                print(f"  Card {i + 1}: {card['name']} ({card['type']})")
+
+            # Send response
+            response = {
+                "type": "player_cards_response",
+                "player_id": current_player_id,
+                "cards": cards_data
+            }
+
+            message = json.dumps(response) + "\n"
+            self.conn.sendall(message.encode("utf-8"))
+            print(f"📤 SERVER: Sent {len(cards_data)} cards for current Player {current_player_id}")
+
+        except Exception as e:
+            print(f"❌ SERVER: Error getting cards for current Player: {e}")
+
 
     def run_game(self):
         """

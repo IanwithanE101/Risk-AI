@@ -137,6 +137,8 @@ territory_card_types = {
     "Irkutsk": "Infantry",
     "Yakutsk": "Cavalry",
     "Kamchatka": "Artillery",
+    "Wild_Card_1": "Wild Card",
+    "Wild_Card_2": "Wild Card",
 }
 
 

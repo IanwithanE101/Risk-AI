@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Risk"
-run/main_scene="res://Scenes/firstAttempt.tscn"
+run/main_scene="uid://1ysll7xybxv2"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 boot_splash/bg_color=Color(0.0768358, 0.0768358, 0.0768358, 1)
 boot_splash/image="uid://d3mwdl8ofa4ga"

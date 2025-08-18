@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://1ysll7xybxv2"]
+
+[ext_resource type="Script" uid="uid://cer3yphwoyv17" path="res://Scripts/RiskClient.gd" id="1_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://dq2w5ckmoet3s" path="res://Scenes/Territories.tscn" id="2_pbw6q"]
+[ext_resource type="Script" uid="uid://buaxoaylntgpj" path="res://Scripts/Controls.gd" id="4_50glp"]
+[ext_resource type="PackedScene" uid="uid://bvv4bs3iafwph" path="res://Scenes/DeployControls.tscn" id="4_jw32o"]
+[ext_resource type="PackedScene" uid="uid://dostu3hinpwm7" path="res://Scenes/AttackControls.tscn" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://d2dxj8rl1c22g" path="res://Scenes/FortifyControls.tscn" id="6_v1gob"]
+[ext_resource type="PackedScene" uid="uid://dtncqv14yu3b3" path="res://Scenes/GeneralUI.tscn" id="7_jw32o"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_rgh2o")
+
+[node name="Territories" parent="." instance=ExtResource("2_pbw6q")]
+
+[node name="GeneralUI" parent="." instance=ExtResource("7_jw32o")]
+
+[node name="Controls" type="Node" parent="."]
+script = ExtResource("4_50glp")
+
+[node name="attack_controls" parent="Controls" instance=ExtResource("5_pbw6q")]
+
+[node name="deploy_controls" parent="Controls" instance=ExtResource("4_jw32o")]
+
+[node name="fortify_controls" parent="Controls" instance=ExtResource("6_v1gob")]
+
+[editable path="GeneralUI"]
+[editable path="Controls/attack_controls"]
+[editable path="Controls/deploy_controls"]
+[editable path="Controls/fortify_controls"]
