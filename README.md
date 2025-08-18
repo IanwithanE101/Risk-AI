@@ -13,7 +13,7 @@ Credits
 RiskBoard SVG:
 By Gr0gmint - based on a Risk board i own., CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=5184827
 
-Card Art:
+  Card Art:
 Infantry: Isaac Cruikshank, CC0, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:Isaac_Cruikshank_-_The_Royal_Soldier_in_His_Majesty%5Es_Service_-_B1981.25.1183_-_Yale_Center_for_British_Art.jpg)
 
 Cavalry: Bodleian Library, Public domain, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:Bodleian_Libraries,_Military_portraits_or-_a_brace_of_heroes.jpg)
