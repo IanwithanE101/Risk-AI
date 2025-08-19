@@ -83,9 +83,18 @@ func _on_end_phase(phase: String):
 
 func send_command(command: Dictionary):
 	if connected:
-		var message = JSON.stringify(command) + "\n"
-		socket.put_utf8_string(message)
-		print("📤 Sent command:", command)
+		var json_string = JSON.stringify(command)
+		var message = json_string + "\n"
+		
+		# Convert to bytes explicitly and send
+		var bytes = message.to_utf8_buffer()
+		var error = socket.put_data(bytes)
+		
+		if error == OK:
+			print("📤 Sent command:", command)
+			print("📤 Raw message sent: '", message, "'")
+		else:
+			print("❌ Error sending command:", error)
 	else:
 		print("❌ Not connected, can't send command")
 

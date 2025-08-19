@@ -6,7 +6,7 @@ import json
 
 import numpy as np
 
-from config import GAME_REPLAY_STORAGE, territory_card_types
+from config import GAME_REPLAY_STORAGE, territory_card_types, continents
 
 from config import TERRITORY_IMAGES_FOLDER, NUM_PLAYERS, territories_with_adjacency, continent_bonuses
 
@@ -79,7 +79,7 @@ class Board:
         territory_bonus = max(territories_owned // 3, 3)
 
         continent_bonus = sum(
-            continent_bonuses[cont] for cont, terrs in continent_bonuses.items()
+            continent_bonuses[cont] for cont, terrs in continents.items()
             if all(self.territories[t].owner == player_id for t in terrs)
         )
 

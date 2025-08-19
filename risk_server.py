@@ -32,6 +32,7 @@ class RiskServer:
         """
         Receives data from the socket, buffers it, and returns one complete JSON command.
         Commands are separated by a newline character '\\n'.
+        Handles socket timeouts gracefully and continues waiting.
         """
         # Search for a newline character, which marks the end of a command
         while "\n" not in self.buffer:
@@ -43,6 +44,10 @@ class RiskServer:
                     print("❌ Godot client disconnected.")
                     return None
                 self.buffer += data.decode("utf-8")
+            except socket.timeout:
+                # Socket timeout - this is expected due to the 1-second timeout
+                # Continue waiting for data (don't return None unless actually disconnected)
+                continue
             except ConnectionResetError:
                 print("❌ Godot client connection was forcibly closed.")
                 return None
@@ -239,10 +244,9 @@ class RiskServer:
         except Exception as e:
             print(f"❌ SERVER: Error getting cards for current Player: {e}")
 
-
     def run_game(self):
         """
-        Main game loop. Waits for commands and updates the game state.
+        Main game loop. Continuously processes incoming commands and updates game state.
         """
         # Send initial game state to client
         initial_player = self.game.get_current_player()
@@ -250,37 +254,129 @@ class RiskServer:
         self.send_turn_update(initial_player)
         self.send_phase_update(initial_player, initial_phase, is_user=True)  # Assume first player is user
 
+        print("🎮 Starting main game loop - waiting for commands...")
+
+        # Main command processing loop
         while not self.game.game_over:
-            current_player = self.game.get_current_player()
-            current_phase = self.game.get_current_phase()
-            print(f"\n--- Player {current_player}'s Turn ({current_phase.upper()}) ---")
-
-            # Determine if current player is user or AI
-            is_user_turn = self.game.players[current_player - 1] == "User"
-
-            print("⏳ Waiting for player to end phase...")
-            command = self.wait_for_command("end_phase")
+            # Get the next command from client
+            command = self.get_next_command()
 
             if command is None:  # Client disconnected
+                print("❌ Client disconnected, ending game")
                 break
 
-            # --- Update Game State ---
+            command_type = command.get("type")
+            print(f"📥 Processing command: {command_type}")
+
+            # Handle the command based on its type
+            if command_type == "end_phase":
+                self.handle_end_phase(command)
+            elif command_type == "request_troop_income":
+                self.handle_troop_income_request(command)
+            elif command_type == "deploy_troops":
+                self.handle_deploy_troops(command)
+            elif command_type == "request_current_player_cards":
+                self.handle_player_cards_request(command)
+            else:
+                print(f"❓ Unknown command type: {command_type}")
+                # Continue processing - don't break on unknown commands
+
+        print("🏁 Game Over!")
+        self.close()
+
+    def handle_end_phase(self, command):
+        """Handles end phase commands and advances the game state."""
+        player = command.get("player")
+        phase = command.get("phase")
+
+        print(f"🏁 Player {player} ending {phase} phase")
+
+        # --- Update Game State ---
+        self.game.end_phase()
+
+        # --- Send Updates to Godot ---
+        new_player = self.game.get_current_player()
+        new_phase = self.game.get_current_phase()
+        new_is_user = self.game.players[new_player - 1] == "User"
+
+        print(f"🔄 Game state updated: Player {new_player}, Phase {new_phase}, User: {new_is_user}")
+
+        # Check if the turn changed
+        if new_player != player:
+            self.send_turn_update(new_player)
+            print(f"📤 Sent turn update: Now Player {new_player}")
+
+        # Always send phase update when phase ends
+        self.send_phase_update(new_player, new_phase, is_user=new_is_user)
+        print(f"📤 Sent phase update: Player {new_player} - {new_phase} ({'User' if new_is_user else 'AI'})")
+
+        # If it's now an AI turn, simulate AI actions
+        if not new_is_user:
+            print("🤖 AI turn detected, simulating AI actions...")
+            self.simulate_ai_turn(new_player, new_phase)
+
+    def simulate_ai_turn(self, player_id, phase):
+        """Simulates AI actions for the given player and phase."""
+        import time
+
+        print(f"🤖 Simulating AI Player {player_id} in {phase} phase")
+
+        if phase == "deploy":
+            # Simulate AI deployment
+            print("🤖 AI thinking about deployments...")
+            time.sleep(2)  # Simulate thinking time
+
+            # For now, just end the phase immediately
+            # Later this will be replaced with actual AI logic
+            print("🤖 AI ending deploy phase")
             self.game.end_phase()
 
-            # --- Send Updates to Godot ---
+            # Send updates for the phase change
             new_player = self.game.get_current_player()
             new_phase = self.game.get_current_phase()
             new_is_user = self.game.players[new_player - 1] == "User"
 
-            # Check if the turn changed
-            if new_player != current_player:
+            if new_player != player_id:
                 self.send_turn_update(new_player)
-
-            # The phase always changes, so always send this update
             self.send_phase_update(new_player, new_phase, is_user=new_is_user)
 
-        print("🏁 Game Over!")
-        self.close()
+            # If next player is also AI, continue simulation
+            if not new_is_user:
+                self.simulate_ai_turn(new_player, new_phase)
+
+        elif phase == "attack":
+            print("🤖 AI skipping attack phase")
+            time.sleep(1)
+            self.game.end_phase()
+
+            # Send updates
+            new_player = self.game.get_current_player()
+            new_phase = self.game.get_current_phase()
+            new_is_user = self.game.players[new_player - 1] == "User"
+
+            if new_player != player_id:
+                self.send_turn_update(new_player)
+            self.send_phase_update(new_player, new_phase, is_user=new_is_user)
+
+            if not new_is_user:
+                self.simulate_ai_turn(new_player, new_phase)
+
+        elif phase == "fortify":
+            print("🤖 AI skipping fortify phase")
+            time.sleep(1)
+            self.game.end_phase()
+
+            # Send updates
+            new_player = self.game.get_current_player()
+            new_phase = self.game.get_current_phase()
+            new_is_user = self.game.players[new_player - 1] == "User"
+
+            if new_player != player_id:
+                self.send_turn_update(new_player)
+            self.send_phase_update(new_player, new_phase, is_user=new_is_user)
+
+            if not new_is_user:
+                self.simulate_ai_turn(new_player, new_phase)
 
     def close(self):
         """Closes the server and client connections."""
