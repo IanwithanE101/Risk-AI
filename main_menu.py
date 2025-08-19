@@ -8,6 +8,9 @@ import subprocess
 import signal
 import psutil
 import numpy as np
+import threading
+import time
+import socket
 
 from game_manager import GameManager
 
@@ -15,414 +18,94 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # Suppress INFO and WARNING messages
 import tensorflow as tf
 import pickle
 from tkinter import ttk
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Input
-from tensorflow.keras.optimizers import Adam
 from PIL import Image, ImageTk
-from config import BACKGROUND_IMAGE_PATH, CUSTOM_BOARDS_FOLDER, PREVIEW_WIDTH, PREVIEW_HEIGHT, GAME_REPLAY_STORAGE, \
-    SCORED_GAMES, AI, REWARD_CONFIG, FONT_PATH
+from config import BACKGROUND_IMAGE_PATH, AI
 from enviornment import Board
-from pygame_gui import RiskGameGUI
 
 
 # ----------------------------------------------------------------
-# MainMenu
+# Simplified MainMenu - Just Start/Stop Server
 # ----------------------------------------------------------------
 class MainMenu(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.title("Risk AI Main Menu")
+        self.title("Risk AI Server Control")
         self.set_window_icon()
-        self.geometry("1200x736")
-        self.minsize(1200, 736)
+        self.geometry("400x300")
+        self.minsize(400, 300)
 
         # Ensure AI folder exists
         os.makedirs(AI, exist_ok=True)
 
         # Server process tracking
-        self.server_process = None
-        self.godot_process = None
+        self.game_manager = None
+        self.server_thread = None
+        self.server_running = False
 
         self.style = ttk.Style(self)
         self._configure_style()
+        self.build_simple_ui()
 
-        self.notebook = ttk.Notebook(self)
-        self.notebook.pack(fill=tk.BOTH, expand=True)
-
-        # Create Tabs
-        self.play_tab = ttk.Frame(self.notebook)
-        self.scoring_tab = ttk.Frame(self.notebook)
-        self.training_tab = ttk.Frame(self.notebook)
-        self.ai_management_tab = ttk.Frame(self.notebook)  # NEW TAB
-
-        # Add Tabs to Notebook
-        self.notebook.add(self.play_tab, text="Play")
-        self.notebook.add(self.scoring_tab, text="Scoring")
-        self.notebook.add(self.training_tab, text="Training")
-        self.notebook.add(self.ai_management_tab, text="AI Management")  # Add AI tab
-
-        # Build Tabs
-        self.build_play_tab()
-        self.build_scoring_tab()
-        self.build_training_tab()
-        self.build_ai_management_tab()  # Build AI Management UI
-
-
+    # ----------------------------------------------------------------
+    # UI SETUP AND CONFIGURATION
+    # ----------------------------------------------------------------
     def _configure_style(self):
         self.style.theme_use("clam")
         self.style.configure("TFrame", background="#eaeaea")
-        self.style.configure("TLabel", background="#eaeaea", font=(FONT_PATH, 12))
-        self.style.configure("TButton", font=(FONT_PATH, 12), padding=6)
-        self.style.configure("TCombobox", font=(FONT_PATH, 12), fieldbackground="white", foreground="black")
-        self.style.configure("Switch.TCheckbutton", indicatoron=False, relief="ridge", padding=6)
-
-    def build_scoring_tab(self):
-        """Creates the Scoring tab UI."""
-        container = ttk.Frame(self.scoring_tab)
-        container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-        # -------------------------------
-        # Top: List of Game Replays (Multi-Select)
-        # -------------------------------
-        replay_frame = ttk.LabelFrame(container, text="Select Game Replays to Score")
-        replay_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        self.replay_listbox = tk.Listbox(replay_frame, selectmode=tk.MULTIPLE, height=10)
-        self.replay_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-        self.load_replay_files()
-
-        # -------------------------------
-        # Middle: Editable Scoring Parameters
-        # -------------------------------
-        scoring_frame = ttk.LabelFrame(container, text="Scoring Parameters")
-        scoring_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        self.scoring_entries = {}
-
-        # **Categorize scoring parameters dynamically**
-        category_frames = {
-            "Deploy": ttk.LabelFrame(scoring_frame, text="Deploy"),
-            "Attack": ttk.LabelFrame(scoring_frame, text="Attack"),
-            "Fortify": ttk.LabelFrame(scoring_frame, text="Fortify"),
-            "Game": ttk.LabelFrame(scoring_frame, text="Game"),
-        }
-
-        for frame in category_frames.values():
-            frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        for key, value in REWARD_CONFIG.items():
-            category = key.split("_")[0]  # Extract category (e.g., "DEPLOY_BONUS" → "DEPLOY")
-            category = category.capitalize()  # Ensure correct capitalization
-            if category in category_frames:
-                frame = category_frames[category]
-
-                # Create Label
-                label = ttk.Label(frame, text=key.replace("_", " "))  # Make it more readable
-                label.pack(anchor="w", padx=5, pady=2)
-
-                # Create Entry Field with Default Value
-                entry_var = tk.StringVar()
-                entry_var.set(str(value))  # Ensure default values are set
-                entry = ttk.Entry(frame, textvariable=entry_var, width=8)
-                entry.pack(anchor="w", padx=5, pady=2)
-
-                self.scoring_entries[key] = entry_var  # Store reference
-
-        # -------------------------------
-        # Bottom: Score Button
-        # -------------------------------
-        score_button = ttk.Button(container, text="Score Selected Games", command=self.score_selected_games)
-        score_button.pack(pady=10)
-
-    def build_training_tab(self):
-        """Creates the Training tab UI."""
-        container = ttk.Frame(self.training_tab)
-        container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-        # -------------------------------
-        # Top: List of Scored Games (Multi-Select)
-        # -------------------------------
-        scored_games_frame = ttk.LabelFrame(container, text="Select Scored Games for Training")
-        scored_games_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        self.scored_games_listbox = tk.Listbox(scored_games_frame, selectmode=tk.MULTIPLE, height=10)
-        self.scored_games_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-        self.load_scored_games()
-
-        # -------------------------------
-        # Middle: AI Selection (New or Existing)
-        # -------------------------------
-        ai_selection_frame = ttk.LabelFrame(container, text="AI Model Selection")
-        ai_selection_frame.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-
-        # Dropdown for existing AIs
-        self.selected_ai_var = tk.StringVar()
-        self.ai_dropdown = ttk.Combobox(ai_selection_frame, textvariable=self.selected_ai_var, state="readonly")
-        self.ai_dropdown.pack(fill=tk.X, padx=5, pady=5)
-        self.load_trained_ai_models()
-
-        # Entry for naming a new AI model
-        self.new_ai_name_var = tk.StringVar()
-        new_ai_entry = ttk.Entry(ai_selection_frame, textvariable=self.new_ai_name_var)
-        new_ai_entry.pack(fill=tk.X, padx=5, pady=5)
-        new_ai_entry.insert(0, "NewAIModel")
-
-        # -------------------------------
-        # Bottom: Train Button
-        # -------------------------------
-        self.train_button = ttk.Button(container, text="Train AI", command=self.train_ai)
-        self.train_button.pack(pady=10)
-
-    def load_replay_files(self):
-        """Loads available replays from GAME_REPLAY_STORAGE."""
-        self.replay_listbox.delete(0, tk.END)
-        if os.path.exists(GAME_REPLAY_STORAGE):
-            replays = sorted(os.listdir(GAME_REPLAY_STORAGE), reverse=True)
-            for replay in replays:
-                self.replay_listbox.insert(tk.END, replay)
-
-    def load_scored_games(self):
-        """Loads available scored games from SCORED_GAMES."""
-        self.scored_games_listbox.delete(0, tk.END)
-        if os.path.exists(SCORED_GAMES):
-            scored_games = sorted(os.listdir(SCORED_GAMES), reverse=True)
-            for game in scored_games:
-                self.scored_games_listbox.insert(tk.END, game)
-
-    def load_trained_ai_models(self):
-        """Loads available trained AI models from TRAINED_AI."""
-        if not os.path.exists(AI):
-            os.makedirs(AI, exist_ok=True)
-        trained_models = sorted(os.listdir(AI))
-        self.ai_dropdown["values"] = trained_models
-
-    def score_selected_games(self):
-        """Scores selected game replays and saves them to SCORED_GAMES."""
-        selected_indices = self.replay_listbox.curselection()
-        selected_files = [self.replay_listbox.get(i) for i in selected_indices]
-
-        if not selected_files:
-            tk.messagebox.showwarning("No Selection", "Please select at least one game replay to score.")
-            return
-
-        updated_scoring = {key: float(entry.get()) for key, entry in self.scoring_entries.items()}
-
-        for replay_file in selected_files:
-            replay_path = os.path.join(GAME_REPLAY_STORAGE, replay_file)
-            scored_path = os.path.join(SCORED_GAMES, replay_file)
-
-            with open(replay_path, "r") as f:
-                game_data = json.load(f)
-
-            scored_data = self.apply_scoring(game_data, updated_scoring)
-
-            with open(scored_path, "w") as f:
-                json.dump(scored_data, f, indent=4)
-
-        tk.messagebox.showinfo("Scoring Complete", "Selected games have been scored and saved.")
-
-    def apply_scoring(self, game_data, scoring_config):
-        """Applies scoring based on the given configuration."""
-        for move in game_data["moves"]:
-            phase = move["phase"]
-            action = move["action"]
-            key = f"{phase.upper()}_{action.upper()}"
-
-            if key in scoring_config:
-                move["reward"] = scoring_config[key]
-            else:
-                move["reward"] = 0
-
-        return game_data
-
-    def build_play_tab(self):
-        container = ttk.Frame(self.play_tab)
-        container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-
-        # "All same AI" Checkbox
-        self.all_same_ai_var = tk.BooleanVar(value=True)  # Defaults to enabled
-        all_same_ai_check = ttk.Checkbutton(
-            container, text="All same AI", variable=self.all_same_ai_var, command=self.toggle_ai_lock
-        )
-        all_same_ai_check.grid(row=0, column=0, columnspan=2, sticky="w", padx=5, pady=5)
-
-        # Player selection
-        self.player_combos = []
-        self.ai_combos = []
-        self.ai_file_paths = [None] * 4  # Store selected AI paths per player
-
-        for i in range(4):
-            # Player type selection
-            lbl = ttk.Label(container, text=f"Player {i + 1}")
-            lbl.grid(row=i + 1, column=0, sticky="w", padx=5, pady=2)
-
-            player_combo = ttk.Combobox(container, state="readonly", values=["User", "AI"])
-            player_combo.set("User")
-            player_combo.grid(row=i + 1, column=1, sticky="ew", padx=5, pady=2)
-            player_combo.bind("<<ComboboxSelected>>", lambda event, p=i: self.update_ai_selection(p))
-            self.player_combos.append(player_combo)
-
-            # AI selection dropdown
-            ai_lbl = ttk.Label(container, text="AI:")
-            ai_lbl.grid(row=i + 1, column=2, sticky="e", padx=(5, 2), pady=2)  # Right-align label
-
-            ai_combo = ttk.Combobox(container, state="readonly", values=self.get_ai_list())
-            ai_combo.grid(row=i + 1, column=3, columnspan=2, sticky="ew", padx=(2, 5), pady=2)  # Expand dropdown
-            ai_combo.bind("<<ComboboxSelected>>", lambda event, p=i: self.set_ai_for_player(p, ai_combo))
-            self.ai_combos.append(ai_combo)
-
-        # Use Custom Board switch
-        self.use_custom_board_var = tk.BooleanVar()
-        custom_board_switch = ttk.Checkbutton(
-            container, text="Use Custom Board", variable=self.use_custom_board_var,
-            style="Switch.TCheckbutton", command=self.toggle_custom_board
-        )
-        custom_board_switch.grid(row=5, column=0, columnspan=2, sticky="w", padx=5, pady=5)
-
-        # Mini Board Preview
-        self.custom_board_frame = ttk.Frame(container)
-        self.custom_board_frame.grid(row=6, column=0, columnspan=3, sticky="nsew", padx=5, pady=5)
-        self.custom_board_frame.grid_remove()
-
-        self.custom_board = None
-
-        # Board name input
-        lbl_board_name = ttk.Label(container, text="Board Name:")
-        lbl_board_name.grid(row=7, column=0, sticky="w", padx=5, pady=5)
-
-        self.board_name_var = tk.StringVar()
-        board_name_entry = ttk.Entry(container, textvariable=self.board_name_var)
-        board_name_entry.grid(row=7, column=1, sticky="ew", padx=5, pady=5)
-
-        save_btn = ttk.Button(container, text="Save", command=self.save_board)
-        save_btn.grid(row=7, column=2, sticky="w", padx=5, pady=5)
-
-        load_btn = ttk.Button(container, text="Load", command=self.load_board)
-        load_btn.grid(row=8, column=2, sticky="w", padx=5, pady=5)
-
-        container.columnconfigure(1, weight=1)
-
-        # Saved Board dropdown
-        lbl_saved_board = ttk.Label(container, text="Saved Board:")
-        lbl_saved_board.grid(row=8, column=0, sticky="w", padx=5, pady=5)
-
-        self.saved_board_var = tk.StringVar(value="None")
-        self.saved_board_combo = ttk.Combobox(container, textvariable=self.saved_board_var,
-                                              values=self.get_saved_boards_list(), state="readonly")
-        self.saved_board_combo.grid(row=8, column=1, sticky="ew", padx=5, pady=5)
-
-        # Start Game Button
-        start_button = ttk.Button(container, text="Start Game", command=self.start_game)
-        start_button.grid(row=10, column=2, sticky="e", padx=5, pady=10)
-
-        # Stop Server Button (NEW)
-        stop_button = ttk.Button(container, text="Stop Server", command=self.stop_server)
-        stop_button.grid(row=11, column=2, sticky="e", padx=5, pady=5)
-
-        self.toggle_ai_lock()  # Ensure AI dropdowns are initially locked
-
-    def stop_server(self):
-        """Stops the Risk server and all related processes"""
-        print("🛑 Stopping Risk server and related processes...")
-
-        try:
-            # Kill any Python processes running Risk-related scripts
-            risk_script_names = ['risk_server.py', 'game_manager.py']
-            killed_count = 0
-
-            for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
-                try:
-                    if proc.info['name'] in ['python.exe', 'python']:
-                        cmdline = proc.info['cmdline']
-                        if cmdline and any(script in ' '.join(cmdline) for script in risk_script_names):
-                            # Don't kill the current main_menu.py process
-                            if proc.pid != os.getpid():
-                                print(f"🔄 Killing Python process {proc.pid}")
-                                proc.terminate()
-                                proc.wait(timeout=3)
-                                killed_count += 1
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
-                    pass
-
-            # Kill processes using port 9999 (Risk server port)
-            for proc in psutil.process_iter(['pid', 'name', 'connections']):
-                try:
-                    for conn in proc.connections():
-                        if conn.laddr.port == 9999:
-                            if proc.pid != os.getpid():
-                                print(f"🔄 Killing process {proc.pid} using port 9999")
-                                proc.terminate()
-                                proc.wait(timeout=3)
-                                killed_count += 1
-                                break
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
-                    pass
-
-            if killed_count > 0:
-                tk.messagebox.showinfo("Server Stopped", f"Killed {killed_count} processes.")
-            else:
-                tk.messagebox.showinfo("Server Status", "No server processes found.")
-
-        except Exception as e:
-            tk.messagebox.showerror("Error", f"Error stopping server: {str(e)}")
-    # --------------------------
-    # AI SELECTION HELPERS
-    # --------------------------
-    def toggle_ai_lock(self):
-        """Locks AI selection if 'All same AI' is checked, keeping all AI players the same."""
-        lock = self.all_same_ai_var.get()
-
-        for i in range(4):
-            if lock:
-                self.ai_combos[i].config(state="disabled" if i > 0 else "readonly")
-                if i > 0 and self.ai_combos[0].get():
-                    self.ai_combos[i].set(self.ai_combos[0].get())  # Sync AI selections
-            else:
-                self.ai_combos[i].config(state="readonly")
-
-    def update_ai_selection(self, player_index):
-        """Enables or disables AI selection based on player type."""
-        if self.player_combos[player_index].get() == "AI":
-            self.ai_combos[player_index].config(state="readonly")
-        else:
-            self.ai_combos[player_index].config(state="disabled")
-            self.ai_combos[player_index].set("")  # Clear AI selection
-
-    def set_ai_for_player(self, player_index, ai_combo):
-        """Updates the stored AI file path for a player."""
-        selected_ai = ai_combo.get()
-        if selected_ai:
-            self.ai_file_paths[player_index] = os.path.join(AI, selected_ai)
-            if self.all_same_ai_var.get():
-                for i in range(4):
-                    self.ai_combos[i].set(selected_ai)
-                    self.ai_file_paths[i] = self.ai_file_paths[player_index]
-
-    def get_ai_list(self):
-        """Retrieves a list of AI models stored in the AI folder."""
-        if not os.path.exists(AI):
-            os.makedirs(AI, exist_ok=True)
-        return [f for f in os.listdir(AI) if f.endswith(".pkl")]
-
-    def toggle_custom_board(self):
-        """Handles enabling/disabling the custom board preview."""
-        if self.use_custom_board_var.get():
-            self.custom_board_frame.grid()
-
-            # Remove existing preview if it exists
-            for child in self.custom_board_frame.winfo_children():
-                child.destroy()
-
-            self.custom_board = Board()
-            self.custom_board.generate_random_board()
-            self.custom_board_preview = MiniBoardPreview(self.custom_board_frame, self.custom_board)
-            self.custom_board_preview.pack()
-        else:
-            self.custom_board_frame.grid_remove()
-            self.custom_board = None
-            self.custom_board_preview = None  # Ensure it's cleared
+        self.style.configure("TLabel", background="#eaeaea", font=("Arial", 12))
+        self.style.configure("TButton", font=("Arial", 12), padding=10)
+
+    def build_simple_ui(self):
+        """Creates a simple UI with just start/stop buttons and info."""
+        # Main container
+        main_frame = ttk.Frame(self)
+        main_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        # Title
+        title_label = ttk.Label(main_frame, text="Risk AI Game Server",
+                                font=("Arial", 16, "bold"))
+        title_label.pack(pady=(0, 20))
+
+        # Info text
+        info_text = """Current Configuration:
+• 4 Players (All Human Users)
+• Random board generation
+• Server runs on localhost:9999
+
+To play: Start server, then connect Godot client"""
+
+        info_label = ttk.Label(main_frame, text=info_text,
+                               font=("Arial", 10),
+                               justify=tk.LEFT)
+        info_label.pack(pady=(0, 30))
+
+        # Button frame
+        button_frame = ttk.Frame(main_frame)
+        button_frame.pack(fill=tk.X, pady=10)
+
+        # Start Server Button
+        self.start_button = ttk.Button(button_frame, text="Start Server",
+                                       command=self.start_server,
+                                       style="TButton")
+        self.start_button.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
+
+        # Stop Server Button
+        self.stop_button = ttk.Button(button_frame, text="Stop Server",
+                                      command=self.stop_server,
+                                      style="TButton")
+        self.stop_button.pack(side=tk.RIGHT, padx=(10, 0), fill=tk.X, expand=True)
+        self.stop_button.config(state=tk.DISABLED)  # Initially disabled
+
+        # Status frame
+        status_frame = ttk.Frame(main_frame)
+        status_frame.pack(fill=tk.X, pady=(20, 0))
+
+        self.status_label = ttk.Label(status_frame, text="Server Status: Stopped",
+                                      font=("Arial", 10, "italic"))
+        self.status_label.pack()
 
     def set_window_icon(self):
+        """Sets window icon if background image exists."""
         try:
             if os.path.exists(BACKGROUND_IMAGE_PATH):
                 img = Image.open(BACKGROUND_IMAGE_PATH).resize((32, 32), Image.Resampling.LANCZOS)
@@ -430,453 +113,570 @@ class MainMenu(tk.Tk):
         except Exception as e:
             print(f"Failed to set window icon: {e}")
 
-    def save_board(self):
-        """Passes save request to MiniBoardPreview and updates the dropdown list."""
-        board_name = self.board_name_var.get().strip()
-        if not board_name:
-            tk.messagebox.showerror("Error", "Please enter a board name")
+    def _reset_button_states(self):
+        """Resets button states (called on main thread)."""
+        self.start_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.DISABLED)
+        self.status_label.config(text="Server Status: Stopped")
+
+    # ----------------------------------------------------------------
+    # SERVER START/STOP CONTROLS
+    # ----------------------------------------------------------------
+    def start_server(self):
+        """Starts the Risk game server in a separate thread."""
+        if self.server_running:
+            tk.messagebox.showwarning("Server Running", "A server is already running. Stop it first.")
             return
 
-        # Call the save method in MiniBoardPreview
-        if self.custom_board_preview:
-            self.custom_board_preview.save_board(board_name)
+        try:
+            # Hardcoded configuration for simplicity
+            # TODO: Make this configurable in future versions
+            player_types = ["User", "User", "User", "User"]  # 4 human players
+            ai_file_paths = [None, None, None, None]  # No AI files needed for human players
 
-        # Update dropdown list after saving
-        self.saved_board_combo["values"] = self.get_saved_boards_list()
-        self.saved_board_var.set(board_name)
-
-    def load_board(self):
-        """Passes the board loading task to MiniBoardPreview."""
-        chosen_board = self.saved_board_var.get().strip()
-
-        if not chosen_board or chosen_board == "None":
-            tk.messagebox.showwarning("No Board Selected", "Please select a board from the dropdown.")
-            return
-
-        # Ensure we are not adding .json twice
-        if not chosen_board.endswith(".json"):
-            chosen_board += ".json"
-
-        # Just call the MiniBoardPreview load method
-        if self.custom_board_preview:
-            self.custom_board_preview.load_board(chosen_board)
-        else:
-            tk.messagebox.showerror("Error", "MiniBoardPreview is not initialized.")
-
-    def refresh_saved_boards(self):
-        """Refreshes the list of saved boards in the dropdown."""
-        saved_boards = self.get_saved_boards_list()
-        self.saved_board_combo["values"] = saved_boards  # Update dropdown values
-        if saved_boards:
-            self.saved_board_var.set(saved_boards[0])  # Select first available board
-
-    def get_saved_boards_list(self):
-        """Retrieves a list of saved board files."""
-        if not os.path.isdir(CUSTOM_BOARDS_FOLDER):
-            os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
-        return [f.replace(".json", "") for f in os.listdir(CUSTOM_BOARDS_FOLDER) if f.endswith(".json")]
-
-    def get_saved_boards_list(self):
-        """Retrieves a list of saved board files."""
-        if not os.path.isdir(CUSTOM_BOARDS_FOLDER):
-            os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
-        return [f for f in os.listdir(CUSTOM_BOARDS_FOLDER) if f.endswith(".json")]
-
-    def start_game(self):
-        """Starts the game using the selected player types and board selection."""
-        player_types = [combo.get() for combo in self.player_combos]
-        ai_file_paths = [combo.get() if combo.get() != "None" else None for combo in self.ai_combos]
-
-        # If using custom board from preview editor
-        if self.use_custom_board_var.get() and self.custom_board_preview:
-            board = self.custom_board_preview.board  # ✅ Pull the actual live board from the preview
-            board.ai_file_paths = ai_file_paths
-        else:
+            # Create board with random generation
             board = Board(ai_file_paths=ai_file_paths)
             board.generate_random_board()
 
-        # Debug: Confirm it's populated
-        for name, t in board.territories.items():
-            print(f"{name}: owner={t.owner}, troops={t.troop_count}")
+            # Debug: Confirm board is populated
+            print("🎲 Generated board with territories:")
+            for name, t in board.territories.items():
+                print(f"  {name}: owner={t.owner}, troops={t.troop_count}")
 
-        # Launch server-side simulation
-        manager = GameManager(board=board, player_types=player_types)
-        manager.start_game()
+            # Create GameManager instance
+            self.game_manager = GameManager(board=board, player_types=player_types)
 
-        # TODO: Add launch for Godot GUI Risk frontend
+            # Start server in separate thread
+            self.server_thread = threading.Thread(target=self._run_server_thread, daemon=True)
+            self.server_running = True
+            self.server_thread.start()
 
-    def train_ai(self):
-        """Trains an AI model using selected scored games."""
-        selected_indices = self.scored_games_listbox.curselection()
-        selected_files = [self.scored_games_listbox.get(i) for i in selected_indices]
+            # Update UI states
+            self.start_button.config(state=tk.DISABLED)
+            self.stop_button.config(state=tk.NORMAL)
+            self.status_label.config(text="Server Status: Running")
 
-        if not selected_files:
-            tk.messagebox.showwarning("No Selection", "Please select at least one scored game to train with.")
-            return
+            print("🚀 Game server started in background thread")
+            tk.messagebox.showinfo("Server Started",
+                                   "Risk server is now running on localhost:9999!\n\n"
+                                   "Connect with your Godot client to play.")
 
-        ai_name = self.new_ai_name_var.get().strip()
-        if not ai_name and not self.selected_ai_var.get():
-            tk.messagebox.showerror("Error", "Please enter a new AI name or select an existing AI model.")
-            return
+        except Exception as e:
+            self.server_running = False
+            self.start_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.DISABLED)
+            self.status_label.config(text="Server Status: Error")
+            tk.messagebox.showerror("Error", f"Failed to start server:\n{str(e)}")
+            print(f"❌ Error starting server: {e}")
 
-        # Determine AI Model Path
-        if ai_name:
-            ai_path = os.path.join(AI, f"{ai_name}.h5")
-        else:
-            ai_path = os.path.join(AI, f"{self.selected_ai_var.get()}.h5")
+    def stop_server(self):
+        """Stops the Risk server and all related processes."""
+        print("🛑 Stopping Risk server and related processes...")
 
-        # Check for GPU availability
-        self.device = "/GPU:0" if tf.config.list_physical_devices('GPU') else "/CPU:0"
-        print(f"Training on: {self.device}")
+        try:
+            # First, set the running flag to False
+            self.server_running = False
 
-        # Load or Create AI Model
-        if os.path.exists(ai_path):
-            model = tf.keras.models.load_model(ai_path)
-        else:
-            model = self.build_dqn_model()
+            # FORCIBLY close socket connections to unblock the thread
+            self._force_close_connections()
 
-        # Disable Train Button During Training
-        self.train_button.config(state=tk.DISABLED)
+            # Close the server if it exists
+            self._close_game_manager_server()
 
-        training_data = []
-        for file in selected_files:
-            path = os.path.join(SCORED_GAMES, file)
-            with open(path, "r") as f:
-                game_data = json.load(f)
-                training_data.extend(game_data["moves"])  # Extract moves
+            # Kill any remaining processes
+            killed_count = self._cleanup_processes()
 
-        # Convert to numpy arrays
-        states, actions, rewards, next_states = self.process_training_data(training_data)
+            # Enhanced thread monitoring with background checker
+            self._monitor_thread_shutdown()
 
-        # Train Model
-        with tf.device(self.device):
-            self.perform_training(model, states, actions, rewards, next_states)
+            # Reset variables
+            self.game_manager = None
+            self.server_thread = None
 
-        # Save Trained Model
-        model.save(ai_path)
+            # Update button states
+            self.start_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.DISABLED)
+            self.status_label.config(text="Server Status: Stopped")
 
-        # Re-enable Train Button
-        self.train_button.config(state=tk.NORMAL)
-        tk.messagebox.showinfo("Training Complete", f"AI model '{ai_name}' has been trained and saved.")
+            tk.messagebox.showinfo("Server Stopped",
+                                   f"Server stopped successfully!\n"
+                                   f"{'Cleaned up ' + str(killed_count) + ' processes.' if killed_count > 0 else 'No additional cleanup needed.'}")
 
-    def build_dqn_model(self):
-        """Builds a new DQN model."""
-        model = Sequential([
-            Input(shape=(810,)),  # 405 current + 405 previous
-            Dense(512, activation='relu'),
-            Dense(512, activation='relu'),
-            Dense(256, activation='relu'),
-            Dense(256, activation='relu'),
-            Dense(256, activation='relu'),
-            Dense(178)  # Output layer: 178 actions, last 1 being a boolean of whether to cash out the cards in hand into troops.
-        ])
-        model.compile(optimizer=Adam(learning_rate=0.001), loss='mse')
-        return model
+        except Exception as e:
+            # Even if there's an error, still reset the button states
+            self.start_button.config(state=tk.NORMAL)
+            self.stop_button.config(state=tk.DISABLED)
+            self.status_label.config(text="Server Status: Error")
+            self.server_running = False
+            self.game_manager = None
+            self.server_thread = None
 
-    def process_training_data(self, training_data):
-        """Processes the training data into NumPy arrays."""
-        states, actions, rewards, next_states = [], [], [], []
+            tk.messagebox.showerror("Error", f"Error stopping server:\n{str(e)}")
+            print(f"❌ Error in stop_server: {e}")
 
-        for move in training_data:
-            states.append(move["state"])
-            actions.append(move["action"])
-            rewards.append(move["reward"])
-            next_states.append(move["next_state"])
+    # ----------------------------------------------------------------
+    # SERVER THREAD MANAGEMENT
+    # ----------------------------------------------------------------
+    def _run_server_thread(self):
+        """Runs the game server in a separate thread with connection monitoring."""
+        thread_id = threading.get_ident()
+        print(f"🔧 Server thread {thread_id} started")
 
-        return (
-            np.array(states),
-            np.array(actions),
-            np.array(rewards),
-            np.array(next_states),
-        )
+        try:
+            # Instead of calling game_manager.start_game(), implement our own loop
+            # that can be stopped when server_running becomes False
+            self._run_monitored_game_loop()
+        except Exception as e:
+            print(f"❌ Server thread {thread_id} error: {e}")
+            # Check if it's a connection error (client disconnect)
+            if "forcibly closed" in str(e) or "disconnected" in str(e).lower():
+                print("🔌 Client disconnected, stopping server gracefully")
+            else:
+                print(f"❌ Unexpected server error: {e}")
+        finally:
+            # Reset states when server stops
+            self.server_running = False
+            print(f"✅ Server thread {thread_id} finished executing - work complete")
+            print("🔄 Server thread finished, resetting button states")
+            # Schedule UI updates on the main thread
+            self.after(0, self._reset_button_states)
 
-    def perform_training(self, model, states, actions, rewards, next_states, batch_size=64, gamma=0.99):
-        """Trains the model using the DQN update rule, now supporting 178 output nodes."""
-        if len(states) < batch_size:
-            return
+    def _run_monitored_game_loop(self):
+        """Runs the game loop with proper connection and stop monitoring."""
+        try:
+            # Initialize the server
+            from risk_server import RiskServer
+            self.game_manager.server = RiskServer(self.game_manager.player_types, self.game_manager.board)
+            print("RiskServer initialized. Starting Risk game...")
 
-        indices = np.random.choice(len(states), batch_size, replace=False)
-        batch_states = states[indices]
-        batch_actions = actions[indices]
-        batch_rewards = rewards[indices]
-        batch_next_states = next_states[indices]
+            # IMPORTANT: Store references for forced socket closing
+            self.server_connection = self.game_manager.server.conn
+            self.server_socket = self.game_manager.server.server_socket
 
-        q_values = model.predict(batch_states, verbose=0)
-        next_q_values = model.predict(batch_next_states, verbose=0)
+            # Set socket timeout to make it interruptible
+            self.server_connection.settimeout(1.0)  # 1 second timeout
 
-        for i in range(batch_size):
-            action = batch_actions[i]
-            reward = batch_rewards[i]
-            future_q = np.max(next_q_values[i])
-            target_q = reward + gamma * future_q
+            # Don't regenerate board - use the one we already created
+            print("📤 Using pre-generated board...")
 
-            # Handle special "cash out" output at index 177
-            if 0 <= action < 178:
-                q_values[i][action] = target_q
+            # Send initial board state to Godot
+            self.game_manager.server.send_full_board_state()
+            print("📤 Initial board state sent to Godot")
 
-        model.fit(batch_states, q_values, epochs=1, verbose=0, batch_size=batch_size)
+            # Game state
+            self.game_manager.current_player = 1
+            self.game_manager.phases = ["deploy", "attack", "fortify"]
 
-    # -----------------------------------------
-    # AI MANAGEMENT TAB
-    # -----------------------------------------
-    def build_ai_management_tab(self):
-        container = ttk.Frame(self.ai_management_tab)
-        container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+            # Main game loop WITH monitoring
+            while (not self.game_manager.check_game_over() and
+                   self.server_running):  # ← KEY: Check our stop flag!
 
-        # Input AI Name
-        lbl_ai_name = ttk.Label(container, text="AI Name:")
-        lbl_ai_name.pack(anchor="w", padx=5, pady=5)
+                print(f"\n=== Player {self.game_manager.current_player}'s turn ===")
 
-        self.ai_name_var = tk.StringVar()
-        ai_name_entry = ttk.Entry(container, textvariable=self.ai_name_var)
-        ai_name_entry.pack(fill=tk.X, padx=5, pady=5)
-
-        # Create AI Button
-        create_ai_button = ttk.Button(container, text="Create AI", command=self.create_ai)
-        create_ai_button.pack(pady=5)
-
-        # AI List
-        lbl_ai_list = ttk.Label(container, text="Existing AI Models:")
-        lbl_ai_list.pack(anchor="w", padx=5, pady=5)
-
-        self.ai_listbox = tk.Listbox(container, height=10)
-        self.ai_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
-        self.load_ai_list()
-
-        # Delete AI Button
-        delete_ai_button = ttk.Button(container, text="Delete AI", command=self.delete_ai)
-        delete_ai_button.pack(pady=5)
-
-    def create_ai(self):
-        """Creates a new AI model file and saves it."""
-        ai_name = self.ai_name_var.get().strip()
-        if not ai_name:
-            tk.messagebox.showerror("Error", "Please enter an AI name.")
-            return
-
-        ai_path = os.path.join(AI, f"{ai_name}.pkl")
-        if os.path.exists(ai_path):
-            tk.messagebox.showerror("Error", "AI name already exists.")
-            return
-
-        # Save an empty AI model as a placeholder
-        with open(ai_path, "wb") as f:
-            pickle.dump({}, f)
-
-        self.load_ai_list()
-        tk.messagebox.showinfo("Success", f"AI '{ai_name}' created.")
-
-    def delete_ai(self):
-        """Deletes the selected AI file."""
-        selected_index = self.ai_listbox.curselection()
-        if not selected_index:
-            tk.messagebox.showerror("Error", "No AI selected.")
-            return
-
-        ai_name = self.ai_listbox.get(selected_index[0])
-        ai_path = os.path.join(AI, ai_name)
-
-        if os.path.exists(ai_path):
-            os.remove(ai_path)
-            self.load_ai_list()
-            tk.messagebox.showinfo("Success", f"AI '{ai_name}' deleted.")
-
-    def load_ai_list(self):
-        """Loads the list of AI models."""
-        self.ai_listbox.delete(0, tk.END)
-        if os.path.exists(AI):
-            ai_files = sorted(os.listdir(AI))
-            for ai in ai_files:
-                self.ai_listbox.insert(tk.END, ai)
-
-    def get_ai_list(self):
-        """Retrieves available AI models."""
-        if not os.path.exists(AI):
-            os.makedirs(AI, exist_ok=True)
-        return [f for f in os.listdir(AI) if f.endswith(".pkl")]
-
-# ----------------------------------------------------------------
-# MiniBoardPreview
-# ----------------------------------------------------------------
-class MiniBoardPreview(tk.Frame):
-    """
-    A small frame inside Tkinter that displays a scaled-down Risk map
-    plus tinted territory silhouettes. Clicking a territory cycles ownership.
-    The board object is updated in real-time.
-    """
-    def __init__(self, parent, board, width=PREVIEW_WIDTH, height=PREVIEW_HEIGHT):
-        super().__init__(parent)
-        self.board = board
-        self.width = width
-        self.height = height
-        self.parent = parent  # Reference to MainMenu
-
-        self.bg_image = None
-        self.territory_images = {}  # name -> PIL territory image
-        self.preview_image = None
-        self.tk_preview = None
-
-        self.load_background()
-        self.load_territories()
-
-        self.label = tk.Label(self)
-        self.label.pack()
-        self.label.bind("<Button-1>", self.on_click)
-
-        self.update_preview()
-
-    def load_background(self):
-        """Loads the game board background image."""
-        if os.path.exists(BACKGROUND_IMAGE_PATH):
-            pil_bg = Image.open(BACKGROUND_IMAGE_PATH).convert("RGBA")
-            pil_bg = pil_bg.resize((self.width, self.height), Image.Resampling.LANCZOS)
-            self.bg_image = pil_bg
-        else:
-            self.bg_image = Image.new("RGBA", (self.width, self.height), (255, 255, 255, 255))
-
-    def load_territories(self):
-        """Loads and scales individual territory images."""
-        for name, territory in self.board.territories.items():
-            image_path = territory.get_image_path()
-            if os.path.exists(image_path):
-                try:
-                    pil_img = Image.open(image_path).convert("RGBA")
-                    pil_img = pil_img.resize((self.width, self.height), Image.Resampling.LANCZOS)
-                    self.territory_images[name] = pil_img
-                except Exception as e:
-                    print(f"Could not load territory {name}: {e}")
-
-    def update_preview(self):
-        """
-        Updates the preview image based on the current board state.
-        Applies coloring based on ownership.
-        """
-        base = self.bg_image.copy() if self.bg_image else Image.new("RGBA", (self.width, self.height), (255, 255, 255, 255))
-
-        for name, territory in self.board.territories.items():
-            if name not in self.territory_images:
-                continue
-
-            t_img = self.territory_images[name].copy()
-            color = self.get_color_for_owner(territory.get_owner())
-            px = t_img.load()
-            w, h = t_img.size
-
-            for x in range(w):
-                for y in range(h):
-                    r, g, b, a = px[x, y]
-                    if a > 0 and (r > 230 and g > 230 and b > 230):  # Replace very white pixels
-                        px[x, y] = (color[0], color[1], color[2], a)
-
-            base.alpha_composite(t_img)
-
-        self.preview_image = base
-        self.tk_preview = ImageTk.PhotoImage(base)
-        self.label.config(image=self.tk_preview)
-        self.label.image = self.tk_preview  # Keep reference
-
-    def on_click(self, event):
-        """Handles user clicking on a territory in the preview and updates board object."""
-        x, y = event.x, event.y
-
-        for name in reversed(list(self.territory_images.keys())):
-            img = self.territory_images[name]
-            if 0 <= x < self.width and 0 <= y < self.height:
-                r, g, b, a = img.getpixel((x, y))
-                if a > 0:
-                    # User clicked inside this territory
-                    current_owner = self.board.territories[name].get_owner()
-                    new_owner = self.next_owner(current_owner)
-                    self.board.territories[name].set_owner(new_owner)  # Update actual board object
-
-                    # Tell MainMenu that the board has changed
-                    if hasattr(self.parent, "custom_board"):
-                        self.parent.custom_board = self.board  # Sync with MainMenu
-
-                    self.update_preview()
+                # Early exit check
+                if not self.server_running:
+                    print("🛑 Server stop requested, ending game loop")
                     break
 
-    def next_owner(self, current):
-        """Cycles the owner of a clicked territory."""
-        if current is None:
-            return 1
-        elif current == 4:
-            return None
+                # Determine if current player is user or AI
+                player_type = self.game_manager.player_types[self.game_manager.current_player - 1]
+                is_user = (player_type == "User")
+
+                print(f"🎮 Player {self.game_manager.current_player} is: {player_type}")
+
+                # Notify Godot about the new turn (with error handling)
+                try:
+                    self.game_manager.server.send_turn_update(self.game_manager.current_player)
+                except Exception as e:
+                    print(f"❌ Failed to send turn update: {e}")
+                    print("🔌 Client likely disconnected, stopping game")
+                    break
+
+                # Go through all phases for this player
+                for phase in self.game_manager.phases:
+                    # Check stop flag before each phase
+                    if not self.server_running:
+                        print("🛑 Server stop requested during phase, ending game loop")
+                        return
+
+                    print(f"📍 Phase: {phase} for Player {self.game_manager.current_player} ({player_type})")
+
+                    # Send phase update with error handling
+                    try:
+                        self.game_manager.server.send_phase_update(self.game_manager.current_player, phase,
+                                                                   is_user=is_user)
+                    except Exception as e:
+                        print(f"❌ Failed to send phase update: {e}")
+                        print("🔌 Client likely disconnected, stopping game")
+                        return
+
+                    if is_user:
+                        # User turn - wait for Godot with timeout checking
+                        print(
+                            f"⏳ Waiting for User Player {self.game_manager.current_player} to complete {phase} phase...")
+                        success = self._handle_user_phase_with_timeout(phase)
+                        if not success:
+                            print("❌ User phase failed (client disconnected or stop requested), ending game")
+                            return  # ← KEY: Exit the entire loop on disconnection!
+                    else:
+                        # AI turn - simulate AI actions WITH stop checking
+                        print(f"🤖 AI Player {self.game_manager.current_player} executing {phase} phase...")
+                        success = self._handle_ai_phase_with_stop_check(phase)
+                        if not success:
+                            print("🛑 AI phase stopped due to stop request")
+                            return
+
+                    print(f"✅ Player {self.game_manager.current_player} completed {phase} phase")
+
+                # End of turn - move to next player
+                self.game_manager.current_player = (self.game_manager.current_player % len(
+                    self.game_manager.player_types)) + 1
+
+            print("🏁 Game ending...")
+
+            # Don't call end_game() as it will try to close connections again
+            print("\n🎮 GAME OVER!")
+            print("📊 Final board state:")
+            self._print_final_stats()
+
+        except Exception as e:
+            print(f"❌ Error in monitored game loop: {e}")
+            # If it's a connection error, exit gracefully
+            if "forcibly closed" in str(e) or "disconnected" in str(e).lower():
+                print("🔌 Connection error detected, stopping game gracefully")
+                return
+            raise  # Re-raise other exceptions
+        finally:
+            # Ensure server is closed (but only once)
+            if hasattr(self.game_manager, 'server') and self.game_manager.server:
+                try:
+                    print("🔌 Closing server connection...")
+                    self.game_manager.server.close()
+                    print("✅ Server connection closed")
+                except Exception as e:
+                    print(f"⚠️ Error closing server: {e}")
+
+    # ----------------------------------------------------------------
+    # PHASE HANDLING (USER AND AI)
+    # ----------------------------------------------------------------
+    def _handle_user_phase_with_timeout(self, phase):
+        """Handles user phase with timeout checking for stop requests."""
+        try:
+            # Keep checking for commands with timeout
+            while self.server_running:
+                try:
+                    # This will now timeout every 1 second thanks to settimeout()
+                    cmd = self.game_manager.server.wait_for_command("end_phase")
+
+                    if cmd is None:  # Client disconnected
+                        print("❌ Client disconnected during user phase")
+                        return False
+
+                    # Command received successfully
+                    return True
+
+                except socket.timeout:
+                    # Socket timeout - check if we should stop
+                    if not self.server_running:
+                        print("🛑 Stop requested during user phase")
+                        return False
+                    # Continue waiting if server still running
+                    continue
+
+        except Exception as e:
+            print(f"❌ Error in user phase: {e}")
+            return False
+
+    def _handle_ai_phase_with_stop_check(self, phase):
+        """Handles AI phase with periodic stop checking."""
+        try:
+            # Simulate AI thinking time with stop checking
+            print(f"🤖 AI Player {self.game_manager.current_player} thinking...")
+
+            # Instead of time.sleep(1), check every 0.1 seconds for 1 second total
+            for i in range(10):  # 10 * 0.1 = 1 second
+                if not self.server_running:
+                    print("🛑 Stop requested during AI thinking")
+                    return False
+                time.sleep(0.1)  # Short sleep with frequent checking
+
+            if phase == "deploy":
+                return self._simulate_ai_deploy_with_stop_check()
+            elif phase == "attack":
+                return self._simulate_ai_attack_with_stop_check()
+            elif phase == "fortify":
+                return self._simulate_ai_fortify_with_stop_check()
+
+            return True
+
+        except Exception as e:
+            print(f"❌ Error in AI phase: {e}")
+            return False
+
+    # ----------------------------------------------------------------
+    # AI SIMULATION WITH STOP CHECKING
+    # ----------------------------------------------------------------
+    def _simulate_ai_deploy_with_stop_check(self):
+        """Simulates AI deploy actions with stop checking."""
+        print(f"🪖 AI Player {self.game_manager.current_player} deploying troops...")
+
+        # Check if we should stop before starting
+        if not self.server_running:
+            return False
+
+        # Get AI's territories
+        ai_territories = [name for name, territory in self.game_manager.board.territories.items()
+                          if territory.owner == self.game_manager.current_player]
+
+        if ai_territories:
+            # Calculate troops to deploy
+            troops_to_deploy = self.game_manager.board.calculate_troops(self.game_manager.current_player)
+            print(f"💰 AI gets {troops_to_deploy} troops to deploy")
+
+            # Randomly distribute troops among AI's territories
+            import random
+            while troops_to_deploy > 0 and self.server_running:  # ← Check stop flag
+                territory_name = random.choice(ai_territories)
+                deploy_amount = min(random.randint(1, 3), troops_to_deploy)
+
+                # Deploy troops
+                success = self.game_manager.board.deploy_troops(self.game_manager.current_player, territory_name,
+                                                                deploy_amount)
+                if success:
+                    troops_to_deploy -= deploy_amount
+                    print(f"🎯 AI deployed {deploy_amount} troops to {territory_name}")
+
+                    # Send update to Godot (if still running)
+                    if self.server_running:
+                        try:
+                            territory = self.game_manager.board.get_territory(territory_name)
+                            self.game_manager.server.send_territory_update(territory_name, territory.owner,
+                                                                           territory.troop_count)
+                        except Exception as e:
+                            print(f"⚠️ Error sending AI deploy update: {e}")
+                            return False
+
+        return self.server_running  # Return True only if we're still running
+
+    def _simulate_ai_attack_with_stop_check(self):
+        """Simulates AI attack actions with stop checking."""
+        print(f"⚔️ AI Player {self.game_manager.current_player} considering attacks...")
+
+        # Check stop flag before processing
+        if not self.server_running:
+            return False
+
+        # For now, AI skips attack phase
+        print("🤖 AI skips attack phase")
+        return True
+
+    def _simulate_ai_fortify_with_stop_check(self):
+        """Simulates AI fortify actions with stop checking."""
+        print(f"🏰 AI Player {self.game_manager.current_player} considering fortification...")
+
+        # Check stop flag before processing
+        if not self.server_running:
+            return False
+
+        # For now, AI skips fortify phase
+        print("🤖 AI skips fortify phase")
+        return True
+
+    # ----------------------------------------------------------------
+    # PROCESS CLEANUP AND MONITORING
+    # ----------------------------------------------------------------
+    def _force_close_connections(self):
+        """Forcibly closes socket connections to unblock threads."""
+        if hasattr(self, 'server_connection') and self.server_connection:
+            try:
+                print("🔌 Force closing client connection...")
+                self.server_connection.close()
+                print("✅ Force closed client connection")
+            except Exception as e:
+                print(f"⚠️ Error force closing client connection: {e}")
+
+        if hasattr(self, 'server_socket') and self.server_socket:
+            try:
+                print("🔌 Force closing server socket...")
+                self.server_socket.close()
+                print("✅ Force closed server socket")
+            except Exception as e:
+                print(f"⚠️ Error force closing server socket: {e}")
+
+    def _close_game_manager_server(self):
+        """Closes the game manager server connection."""
+        if self.game_manager and hasattr(self.game_manager, 'server'):
+            try:
+                print("🔌 Closing game manager server connection...")
+                self.game_manager.server.close()
+                print("✅ Closed game manager server connection")
+            except Exception as e:
+                print(f"⚠️ Error closing game manager server: {e}")
+
+    def _cleanup_processes(self):
+        """Kills any remaining Risk-related processes."""
+        killed_count = 0
+
+        # Method 1: Kill processes using port 9999
+        try:
+            for proc in psutil.process_iter(['pid', 'name']):
+                try:
+                    if proc.pid == os.getpid():  # Skip current process
+                        continue
+
+                    # Use net_connections() instead of deprecated connections()
+                    try:
+                        connections = proc.net_connections()
+                        for conn in connections:
+                            if hasattr(conn, 'laddr') and hasattr(conn.laddr, 'port') and conn.laddr.port == 9999:
+                                print(f"🔄 Killing process {proc.pid} ({proc.info['name']}) using port 9999")
+                                proc.terminate()
+                                proc.wait(timeout=3)
+                                killed_count += 1
+                                break
+                    except (psutil.AccessDenied, psutil.NoSuchProcess):
+                        continue
+
+                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                    continue
+        except Exception as e:
+            print(f"⚠️ Error checking connections: {e}")
+
+        # Method 2: Kill Python processes running Risk scripts
+        risk_script_names = ['risk_server.py', 'game_manager.py']
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                if proc.pid == os.getpid():  # Skip current process
+                    continue
+
+                if proc.info['name'] and 'python' in proc.info['name'].lower():
+                    cmdline = proc.info['cmdline']
+                    if cmdline:
+                        cmdline_str = ' '.join(cmdline)
+                        # Only kill if it's running risk_server.py or game_manager.py (not main_menu.py)
+                        if any(script in cmdline_str for script in risk_script_names):
+                            print(f"🔄 Killing Python process {proc.pid} running {cmdline_str}")
+                            proc.terminate()
+                            proc.wait(timeout=3)
+                            killed_count += 1
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
+                continue
+
+        # Method 3: System-level port checking
+        self._cleanup_port_9999()
+
+        return killed_count
+
+    def _cleanup_port_9999(self):
+        """Uses system tools to clean up port 9999."""
+        try:
+            # Try to bind to port 9999 to see if it's free
+            test_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            test_socket.settimeout(1)
+            result = test_socket.connect_ex(('127.0.0.1', 9999))
+            if result == 0:
+                print("⚠️ Port 9999 still in use, attempting force close...")
+                # Port is still in use, try more aggressive cleanup
+                try:
+                    # On Windows, use netstat to find the process
+                    result = subprocess.run(['netstat', '-ano'], capture_output=True, text=True, timeout=5)
+                    lines = result.stdout.split('\n')
+                    for line in lines:
+                        if ':9999' in line and 'LISTENING' in line:
+                            parts = line.split()
+                            if len(parts) > 4:
+                                pid = parts[-1]
+                                try:
+                                    pid = int(pid)
+                                    if pid != os.getpid():
+                                        proc = psutil.Process(pid)
+                                        proc.terminate()
+                                        proc.wait(timeout=3)
+                                        print(f"🔄 Force killed process {pid} on port 9999")
+                                except (ValueError, psutil.NoSuchProcess, psutil.AccessDenied):
+                                    continue
+                except Exception as e:
+                    print(f"⚠️ Error in force cleanup: {e}")
+            else:
+                print("✅ Port 9999 is now free")
+            test_socket.close()
+        except Exception as e:
+            print(f"⚠️ Error checking port status: {e}")
+
+    def _monitor_thread_shutdown(self):
+        """Monitors thread shutdown with enhanced tracking."""
+        if self.server_thread and self.server_thread.is_alive():
+            print("⏳ Waiting for server thread to finish...")
+            self.server_thread.join(timeout=2)  # Wait 2 seconds initially
+
+            if self.server_thread.is_alive():
+                print("⚠️ Thread still showing as alive, starting background monitor...")
+                # Start background thread monitor
+                self._start_thread_monitor()
+            else:
+                print("✅ Server thread finished and cleaned up successfully")
+
+    def _start_thread_monitor(self):
+        """Starts a background monitor to track when the thread actually finishes."""
+        if hasattr(self, 'server_thread') and self.server_thread:
+            monitor_thread = threading.Thread(
+                target=self._monitor_thread_cleanup,
+                args=(self.server_thread,),
+                daemon=True
+            )
+            monitor_thread.start()
+
+    def _monitor_thread_cleanup(self, thread_to_monitor):
+        """Monitors a thread until it's actually cleaned up."""
+        thread_id = getattr(thread_to_monitor, 'ident', 'unknown')
+        start_time = time.time()
+        check_count = 0
+
+        print(f"🔍 Starting thread monitor for thread {thread_id}")
+
+        while thread_to_monitor.is_alive() and check_count < 300:  # Monitor for max 5 minutes (300 seconds)
+            time.sleep(1)  # Check every second
+            check_count += 1
+            elapsed = int(time.time() - start_time)
+
+            # Print status every 10 seconds to avoid spam
+            if check_count % 10 == 0:
+                print(f"🕐 Thread {thread_id} still in registry after {elapsed} seconds")
+
+        if thread_to_monitor.is_alive():
+            print(f"⚠️ Thread {thread_id} still alive after 5 minutes - giving up monitoring")
+            print("   This is likely a Python threading quirk and can be safely ignored")
         else:
-            return current + 1
+            elapsed = int(time.time() - start_time)
+            print(f"🎉 Thread {thread_id} successfully cleaned up after {elapsed} seconds")
+            print("✅ Thread fully removed from Python's thread registry")
 
-    def get_color_for_owner(self, owner_id):
-        """Returns the RGB color corresponding to an owner."""
-        color_map = {
-            1: (255, 0, 0),
-            2: (0, 255, 0),
-            3: (0, 0, 255),
-            4: (255, 255, 0),
-            None: (255, 255, 255),
-        }
-        return color_map.get(owner_id, (255, 255, 255))
+    # ----------------------------------------------------------------
+    # UTILITY FUNCTIONS
+    # ----------------------------------------------------------------
+    def _print_final_stats(self):
+        """Prints final game statistics."""
+        player_stats = {1: {"territories": 0, "troops": 0},
+                        2: {"territories": 0, "troops": 0},
+                        3: {"territories": 0, "troops": 0},
+                        4: {"territories": 0, "troops": 0}}
 
-    def save_board(self, board_name):
-        """Saves the currently edited board inside MiniBoardPreview."""
-        if not board_name:
-            tk.messagebox.showerror("Error", "Please enter a board name")
-            return
+        for territory in self.game_manager.board.territories.values():
+            if territory.owner in player_stats:
+                player_stats[territory.owner]["territories"] += 1
+                player_stats[territory.owner]["troops"] += territory.troop_count
 
-        if self.board is None:
-            tk.messagebox.showerror("Error", "No board to save!")
-            return
-
-        os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
-
-        # Ensure filename is correct
-        if not board_name.endswith(".json"):
-            board_name += ".json"
-
-        file_path = os.path.join(CUSTOM_BOARDS_FOLDER, board_name)
-
-        # Extract the CURRENT edited state from MiniBoardPreview
-        board_state = {name: {"owner": terr.get_owner(), "troops": terr.troop_count}
-                       for name, terr in self.board.territories.items()}
-
-        try:
-            with open(file_path, "w") as f:
-                json.dump(board_state, f, indent=4)
-
-            tk.messagebox.showinfo("Success", f"Board saved as {board_name}")
-
-        except Exception as e:
-            tk.messagebox.showerror("Save Error", f"Failed to save board:\n{str(e)}")
-
-    def load_board(self, board_name):
-        """Loads a saved board into the existing board object, updating its state."""
-        file_path = os.path.join(CUSTOM_BOARDS_FOLDER, board_name)
-
-        if not os.path.exists(file_path):
-            tk.messagebox.showerror("Error", f"File not found: {file_path}")
-            return
-
-        try:
-            with open(file_path, "r") as f:
-                board_data = json.load(f)
-
-            # MODIFY THE EXISTING BOARD (don't create a new one)
-            for name, info in board_data.items():
-                if name in self.board.territories:  # Ensure the territory exists
-                    self.board.territories[name].set_owner(info["owner"])  # Update ownership
-                    self.board.territories[name].troop_count = info["troops"]  # Update troop count
-
-            self.update_preview()  # Reflect the new board state in the UI
-            tk.messagebox.showinfo("Success", f"Loaded board: {board_name}")
-
-        except Exception as e:
-            tk.messagebox.showerror("Load Error", f"Failed to load board:\n{str(e)}")
+        for player_id in range(1, len(self.game_manager.player_types) + 1):
+            stats = player_stats[player_id]
+            player_type = self.game_manager.player_types[player_id - 1]
+            print(
+                f"   Player {player_id} ({player_type}): {stats['territories']} territories, {stats['troops']} troops")
 
 
 # ----------------------------------------------------------------
 # MAIN
 # ----------------------------------------------------------------
 if __name__ == "__main__":
-    os.makedirs(CUSTOM_BOARDS_FOLDER, exist_ok=True)
     app = MainMenu()
     app.mainloop()
-    print("Control Panel closed.")
+    print("Risk AI Server Control closed.")

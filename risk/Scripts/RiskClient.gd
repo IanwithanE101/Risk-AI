@@ -122,14 +122,13 @@ func _process(_delta):
 				end_button.set_enabled(true)
 		elif status == StreamPeerTCP.STATUS_ERROR:
 			print("❌ Connection failed!")
-			#set_process(false)
 			return
 		elif status == StreamPeerTCP.STATUS_CONNECTING:
 			return
 		else:
 			return
 	
-	# Read incoming data
+	# Read incoming data - DECLARE EACH VARIABLE ONLY ONCE
 	var available := socket.get_available_bytes()
 	if available == 0:
 		return
@@ -138,12 +137,13 @@ func _process(_delta):
 	if message == "":
 		return
 	
+	# Rest of your message processing...
 	for line in message.split("\n"):
 		if line.strip_edges() == "":
 			continue
 		
 		var data = JSON.parse_string(line)
-		if typeof(data) != TYPE_DICTIONARY:
+		if data == null or typeof(data) != TYPE_DICTIONARY:
 			print("❌ Bad JSON:", line)
 			continue
 		
