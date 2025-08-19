@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Added Cards, card control and the ability for python and godot to communicate, currently working on getting the phases to work under the new control scheme.">
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Making the python gui less important, Currently have removed some gui stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pygame_gui.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/risk/Scripts/RiskClient.gd" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scripts/RiskClient.gd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/risk_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/risk_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +84,7 @@
     "Python.test.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#9 on Updating-massively",
+    "git-widget-placeholder": "#10 on Updating-massively",
     "ignore.virus.scanning.warn.message": "true",
     "settings.editor.selected.configurable": "preferences.lookFeel"
   }
@@ -297,7 +298,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755485932885</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Making the python gui less important, Currently have removed some gui stuff">
+      <option name="closed" value="true" />
+      <created>1755573357549</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1755573357549</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -322,7 +331,8 @@
     <MESSAGE value="Adding requirements.txt" />
     <MESSAGE value="Changed it to use Godot instead of Pygame, currently in the process of finishing out the python so that the game is actually playable, and the ai can play against itself." />
     <MESSAGE value="Added Cards, card control and the ability for python and godot to communicate, currently working on getting the phases to work under the new control scheme." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Cards, card control and the ability for python and godot to communicate, currently working on getting the phases to work under the new control scheme." />
+    <MESSAGE value="Making the python gui less important, Currently have removed some gui stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Making the python gui less important, Currently have removed some gui stuff" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
