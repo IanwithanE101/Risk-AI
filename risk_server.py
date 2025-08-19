@@ -54,12 +54,15 @@ class RiskServer:
         command_str, self.buffer = self.buffer.split("\n", 1)
 
         try:
+            # Clean the command string before parsing - remove ALL whitespace from start/end
+            command_str = command_str.strip()
+
             # Parse the JSON string into a Python dictionary
             command = json.loads(command_str)
             print(f"📥 Received command: {command}")
             return command
         except json.JSONDecodeError:
-            print(f"❌ Failed to decode JSON: {command_str}")
+            print(f"❌ Failed to decode JSON: '{command_str}'")
             return None
 
     def wait_for_command(self, command_type):
@@ -89,7 +92,6 @@ class RiskServer:
             self.handle_player_cards_request(command)
         else:
             print(f"❓ SERVER: Unknown command type: {command_type}")
-        # Add other command handlers here
 
     def handle_troop_income_request(self, command):
         """Handles request for troop income calculation."""
