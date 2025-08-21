@@ -72,10 +72,10 @@ polygon = PackedVector2Array(-1230.5, -781, -1230.5, -779.3, -1246, -772, -1260.
 
 [node name="TroopLabel" type="Label" parent="Alaska"]
 z_index = 3
-offset_left = 110.0
-offset_top = 140.0
-offset_right = 196.0
-offset_bottom = 175.0
+offset_left = 108.0
+offset_top = 133.654
+offset_right = 194.0
+offset_bottom = 188.654
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -100,10 +100,10 @@ polygon = PackedVector2Array(-768.9, -784.2, -772.5, -783.8, -772.5, -780.5, -77
 
 [node name="TroopLabel" type="Label" parent="Northwest_Territory"]
 z_index = 3
-offset_left = 210.0
-offset_top = 138.462
-offset_right = 436.0
-offset_bottom = 173.462
+offset_left = 208.0
+offset_top = 134.615
+offset_right = 434.0
+offset_bottom = 189.615
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -128,10 +128,10 @@ polygon = PackedVector2Array(-1106.5, -623.1, -1106.5, -619.6, -1097.8, -599, -1
 
 [node name="TroopLabel" type="Label" parent="Alberta"]
 z_index = 3
-offset_left = 264.0
-offset_top = 220.192
-offset_right = 350.0
-offset_bottom = 257.192
+offset_left = 259.0
+offset_top = 214.423
+offset_right = 345.0
+offset_bottom = 269.423
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -166,10 +166,10 @@ polygon = PackedVector2Array(-694.5, -380, -694.5, -375, -688.5, -375, -688.5, -
 
 [node name="TroopLabel" type="Label" parent="Ontario"]
 z_index = 3
-offset_left = 379.0
-offset_top = 236.538
-offset_right = 465.0
-offset_bottom = 271.538
+offset_left = 380.0
+offset_top = 227.885
+offset_right = 466.0
+offset_bottom = 282.885
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -242,10 +242,10 @@ polygon = PackedVector2Array(-575, -379.4, -577.5, -378.3, -577.5, -375.3, -572.
 
 [node name="TroopLabel" type="Label" parent="Quebec"]
 z_index = 3
-offset_left = 515.0
-offset_top = 236.538
-offset_right = 601.0
-offset_bottom = 271.538
+offset_left = 508.0
+offset_top = 224.038
+offset_right = 594.0
+offset_bottom = 279.038
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -270,10 +270,10 @@ polygon = PackedVector2Array(-850.5, -432, -850.5, -431, -888.5, -430, -1066.2, 
 
 [node name="TroopLabel" type="Label" parent="Western_US"]
 z_index = 3
-offset_left = 267.0
-offset_top = 321.154
-offset_right = 353.0
-offset_bottom = 356.154
+offset_left = 261.0
+offset_top = 309.615
+offset_right = 347.0
+offset_bottom = 364.615
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -298,10 +298,10 @@ polygon = PackedVector2Array(-829.5, -432, -829.5, -423, -831.5, -295, -831.5, -
 
 [node name="TroopLabel" type="Label" parent="Eastern_US"]
 z_index = 3
-offset_left = 411.0
-offset_top = 351.923
-offset_right = 497.0
-offset_bottom = 386.923
+offset_left = 406.0
+offset_top = 347.115
+offset_right = 492.0
+offset_bottom = 402.115
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -336,10 +336,10 @@ polygon = PackedVector2Array(-886.5, 52.2, -886.5, 57.4, -878.8, 60, -873.8, 60,
 
 [node name="TroopLabel" type="Label" parent="Central_America"]
 z_index = 3
-offset_left = 264.0
-offset_top = 419.231
-offset_right = 350.0
-offset_bottom = 454.231
+offset_left = 265.0
+offset_top = 406.731
+offset_right = 351.0
+offset_bottom = 461.731
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -364,10 +364,10 @@ polygon = PackedVector2Array(-757.5, 17, -757.5, 18.2, -761.8, 19, -765.3, 19, -
 
 [node name="TroopLabel" type="Label" parent="Venezuela"]
 z_index = 4
-offset_left = 413.0
-offset_top = 532.692
-offset_right = 499.0
-offset_bottom = 567.692
+offset_left = 400.0
+offset_top = 523.077
+offset_right = 486.0
+offset_bottom = 578.077
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -392,10 +392,10 @@ polygon = PackedVector2Array(-869.5, 149.6, -869.5, 153.5, -879.9, 182, -882.6, 
 
 [node name="TroopLabel" type="Label" parent="Peru"]
 z_index = 3
-offset_left = 440.0
-offset_top = 661.538
-offset_right = 526.0
-offset_bottom = 696.538
+offset_left = 451.0
+offset_top = 655.769
+offset_right = 537.0
+offset_bottom = 710.769
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -425,10 +425,10 @@ polygon = PackedVector2Array(-653.5, 840.4, -653.5, 842.5, -654.8, 843, -662.5, 
 
 [node name="TroopLabel" type="Label" parent="Argentina"]
 z_index = 3
-offset_left = 455.0
-offset_top = 761.538
-offset_right = 541.0
-offset_bottom = 796.538
+offset_left = 453.0
+offset_top = 754.808
+offset_right = 539.0
+offset_bottom = 809.808
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -453,10 +453,10 @@ polygon = PackedVector2Array(-536.2, 108.7, -539.5, 109.3, -539.5, 111, -544.2, 
 
 [node name="TroopLabel" type="Label" parent="Brazil"]
 z_index = 3
-offset_left = 555.0
-offset_top = 622.115
-offset_right = 641.0
-offset_bottom = 657.115
+offset_left = 550.0
+offset_top = 611.538
+offset_right = 636.0
+offset_bottom = 666.538
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -486,10 +486,10 @@ polygon = PackedVector2Array(46.5, 400, 46.5, 405, 51.5, 405, 51.5, 400)
 
 [node name="TroopLabel" type="Label" parent="North_Africa"]
 z_index = 3
-offset_left = 843.0
-offset_top = 588.462
-offset_right = 929.0
-offset_bottom = 623.462
+offset_left = 848.0
+offset_top = 579.808
+offset_right = 934.0
+offset_bottom = 634.808
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -514,10 +514,10 @@ polygon = PackedVector2Array(12.5, 35, 12.5, 38, -1.40002, 51, -4.69995, 51, 2.5
 
 [node name="TroopLabel" type="Label" parent="Egypt"]
 z_index = 3
-offset_left = 1000.0
-offset_top = 544.231
-offset_right = 1086.0
-offset_bottom = 579.231
+offset_left = 987.0
+offset_top = 532.692
+offset_right = 1073.0
+offset_bottom = 587.692
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -542,10 +542,10 @@ polygon = PackedVector2Array(251.8, 178.6, 249.5, 179.7, 144.9, 180, 142.5, 191.
 
 [node name="TroopLabel" type="Label" parent="East_Africa"]
 z_index = 3
-offset_left = 1070.0
-offset_top = 638.462
-offset_right = 1156.0
-offset_bottom = 673.462
+offset_left = 1066.0
+offset_top = 625.962
+offset_right = 1152.0
+offset_bottom = 680.962
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -570,10 +570,10 @@ polygon = PackedVector2Array(122.3, 313.7, 119.5, 314.5, 119.5, 318, 113.5, 323.
 
 [node name="TroopLabel" type="Label" parent="Congo"]
 z_index = 3
-offset_left = 998.0
-offset_top = 713.462
-offset_right = 1084.0
-offset_bottom = 748.462
+offset_left = 1000.0
+offset_top = 700.962
+offset_right = 1086.0
+offset_bottom = 755.962
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -608,10 +608,10 @@ polygon = PackedVector2Array(31.5, 494, 31.5, 499, 36.5, 499, 36.5, 494)
 
 [node name="TroopLabel" type="Label" parent="South_Africa"]
 z_index = 3
-offset_left = 1007.0
-offset_top = 834.615
-offset_right = 1093.0
-offset_bottom = 869.615
+offset_left = 1008.0
+offset_top = 823.077
+offset_right = 1094.0
+offset_bottom = 878.077
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -636,10 +636,10 @@ polygon = PackedVector2Array(443.2, 578.6, 440.5, 579.6, 440.5, 581.2, 439.7, 58
 
 [node name="TroopLabel" type="Label" parent="Madagascar"]
 z_index = 3
-offset_left = 1178.0
-offset_top = 835.577
-offset_right = 1264.0
-offset_bottom = 870.577
+offset_left = 1174.0
+offset_top = 828.846
+offset_right = 1260.0
+offset_bottom = 883.846
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -703,9 +703,9 @@ polygon = PackedVector2Array(-311.5, -399.1, -311.5, -397, -315.2, -394, -317.5,
 [node name="TroopLabel" type="Label" parent="Great_Britain"]
 z_index = 3
 offset_left = 770.0
-offset_top = 321.154
+offset_top = 305.769
 offset_right = 856.0
-offset_bottom = 356.154
+offset_bottom = 360.769
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -730,10 +730,10 @@ polygon = PackedVector2Array(-166.5, -640.9, -166.5, -638.3, -171, -636, -173.7,
 
 [node name="TroopLabel" type="Label" parent="Iceland"]
 z_index = 3
-offset_left = 777.0
-offset_top = 195.192
-offset_right = 863.0
-offset_bottom = 230.192
+offset_left = 780.0
+offset_top = 179.808
+offset_right = 866.0
+offset_bottom = 234.808
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -763,10 +763,10 @@ polygon = PackedVector2Array(-80.5, -592, -80.5, -587, -75.5, -587, -75.5, -592)
 
 [node name="TroopLabel" type="Label" parent="Scandinavia"]
 z_index = 3
-offset_left = 906.0
-offset_top = 203.846
-offset_right = 992.0
-offset_bottom = 238.846
+offset_left = 908.0
+offset_top = 194.231
+offset_right = 994.0
+offset_bottom = 249.231
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -796,10 +796,10 @@ polygon = PackedVector2Array(-34.6, -441.3, -37.5, -440.5, -37.5, -434.4, -39.5,
 
 [node name="TroopLabel" type="Label" parent="Northern_Europe"]
 z_index = 3
-offset_left = 923.0
-offset_top = 312.5
-offset_right = 1009.0
-offset_bottom = 347.5
+offset_left = 917.0
+offset_top = 305.769
+offset_right = 1003.0
+offset_bottom = 360.769
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -850,9 +850,9 @@ polygon = PackedVector2Array(-27.5, -49, -27.5, -43, -22.5, -43, -22.5, -49)
 [node name="TroopLabel" type="Label" parent="Southern_Europe"]
 z_index = 3
 offset_left = 960.0
-offset_top = 403.846
+offset_top = 396.154
 offset_right = 1046.0
-offset_bottom = 438.846
+offset_bottom = 451.154
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -961,10 +961,10 @@ polygon = PackedVector2Array(824.5, -18, 824.5, -14.9, 817.8, -9, 814.3, -9, 809
 
 [node name="TroopLabel" type="Label" parent="Siam"]
 z_index = 3
-offset_left = 1489.0
-offset_top = 525.962
-offset_right = 1575.0
-offset_bottom = 560.962
+offset_left = 1493.0
+offset_top = 523.077
+offset_right = 1579.0
+offset_bottom = 578.077
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1019,10 +1019,10 @@ polygon = PackedVector2Array(930.5, 496.9, 930.5, 498.9, 915.5, 507.9, 915.5, 51
 
 [node name="TroopLabel" type="Label" parent="Indonesia"]
 z_index = 3
-offset_left = 1537.0
-offset_top = 691.346
-offset_right = 1623.0
-offset_bottom = 726.346
+offset_left = 1536.0
+offset_top = 682.692
+offset_right = 1622.0
+offset_bottom = 737.692
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1047,10 +1047,10 @@ polygon = PackedVector2Array(1065.5, 260.8, 1065.5, 263.3, 1058.5, 274.4, 1058.5
 
 [node name="TroopLabel" type="Label" parent="New_Guinea"]
 z_index = 3
-offset_left = 1697.0
-offset_top = 660.577
-offset_right = 1783.0
-offset_bottom = 695.577
+offset_left = 1694.0
+offset_top = 652.885
+offset_right = 1780.0
+offset_bottom = 707.885
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1075,10 +1075,10 @@ polygon = PackedVector2Array(1094.5, 502.8, 1094.5, 506, 1082.8, 515, 1081, 515,
 
 [node name="TroopLabel" type="Label" parent="Western_Australia"]
 z_index = 3
-offset_left = 1604.0
-offset_top = 833.654
-offset_right = 1690.0
-offset_bottom = 868.654
+offset_left = 1606.0
+offset_top = 824.039
+offset_right = 1692.0
+offset_bottom = 879.039
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1103,10 +1103,10 @@ polygon = PackedVector2Array(1161.5, 464.2, 1161.5, 466.9, 1155.5, 470.9, 1142.8
 
 [node name="TroopLabel" type="Label" parent="Eastern_Australia"]
 z_index = 3
-offset_left = 1734.0
-offset_top = 788.462
-offset_right = 1820.0
-offset_bottom = 823.462
+offset_left = 1732.0
+offset_top = 779.808
+offset_right = 1818.0
+offset_bottom = 834.808
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1131,10 +1131,10 @@ polygon = PackedVector2Array(678.3, -368.3, 675.5, -367.5, 675.5, -359.7, 670.5,
 
 [node name="TroopLabel" type="Label" parent="China"]
 z_index = 3
-offset_left = 1480.0
-offset_top = 428.846
-offset_right = 1566.0
-offset_bottom = 463.846
+offset_left = 1476.0
+offset_top = 409.615
+offset_right = 1562.0
+offset_bottom = 464.615
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1230,10 +1230,10 @@ polygon = PackedVector2Array(617.5, -480, 617.5, -475, 622.5, -475, 622.5, -480)
 
 [node name="TroopLabel" type="Label" parent="Siberia"]
 z_index = 3
-offset_left = 1377.0
-offset_top = 159.615
-offset_right = 1463.0
-offset_bottom = 194.615
+offset_left = 1374.0
+offset_top = 149.038
+offset_right = 1460.0
+offset_bottom = 204.038
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1258,10 +1258,10 @@ polygon = PackedVector2Array(952.5, -465.8, 952.5, -463.3, 940.5, -458.3, 932.6,
 
 [node name="TroopLabel" type="Label" parent="Mongolia"]
 z_index = 3
-offset_left = 1517.0
-offset_top = 330.769
-offset_right = 1603.0
-offset_bottom = 365.769
+offset_left = 1520.0
+offset_top = 316.346
+offset_right = 1606.0
+offset_bottom = 371.346
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1306,10 +1306,10 @@ polygon = PackedVector2Array(1109.5, -202, 1109.5, -197, 1114.5, -197, 1114.5, -
 
 [node name="TroopLabel" type="Label" parent="Japan"]
 z_index = 3
-offset_left = 1708.0
-offset_top = 346.154
-offset_right = 1794.0
-offset_bottom = 381.154
+offset_left = 1707.0
+offset_top = 330.769
+offset_right = 1793.0
+offset_bottom = 385.769
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1367,10 +1367,10 @@ polygon = PackedVector2Array(847.5, -849, 847.5, -845.9, 830.6, -828, 826.7, -82
 
 [node name="TroopLabel" type="Label" parent="Yakutsk"]
 z_index = 3
-offset_left = 1520.0
-offset_top = 114.423
-offset_right = 1606.0
-offset_bottom = 149.423
+offset_left = 1517.0
+offset_top = 110.577
+offset_right = 1603.0
+offset_bottom = 165.577
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40
@@ -1400,10 +1400,10 @@ polygon = PackedVector2Array(1098.5, -622, 1098.5, -617, 1103.5, -617, 1103.5, -
 
 [node name="TroopLabel" type="Label" parent="Kamchatka"]
 z_index = 3
-offset_left = 1664.0
-offset_top = 125.0
-offset_right = 1750.0
-offset_bottom = 160.0
+offset_left = 1667.0
+offset_top = 113.462
+offset_right = 1753.0
+offset_bottom = 168.462
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("4_fvvck")
 theme_override_font_sizes/font_size = 40

@@ -1,20 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2dxj8rl1c22g"]
+[gd_scene load_steps=4 format=3 uid="uid://d2dxj8rl1c22g"]
 
 [ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="1_rosdd"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l5hsk"]
-bg_color = Color(0.687215, 0.687215, 0.687215, 1)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_blend = true
+[ext_resource type="Theme" uid="uid://c4lf1osfvgf32" path="res://GUI Resources/Theme.tres" id="2_ngb5x"]
+[ext_resource type="StyleBox" uid="uid://cghppexc7w47f" path="res://GUI Resources/UI Elements/PopupCOloring.tres" id="3_8hc53"]
 
 [node name="Node2D" type="Node2D"]
-visible = false
 
 [node name="Feedback" type="Label" parent="."]
-visible = false
 z_index = 3
 offset_left = 992.0
 offset_top = 1040.0
@@ -29,38 +21,41 @@ vertical_alignment = 1
 [node name="TroopFortifyPopup" type="PopupPanel" parent="."]
 auto_translate_mode = 1
 initial_position = 1
-size = Vector2i(500, 120)
-theme_override_styles/panel = SubResource("StyleBoxFlat_l5hsk")
+size = Vector2i(525, 165)
+visible = true
+borderless = false
+theme_override_styles/panel = ExtResource("3_8hc53")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="TroopFortifyPopup"]
-visible = false
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 490.0
-offset_bottom = 110.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 523.0
+offset_bottom = 163.0
+theme_override_constants/separation = 5
 
-[node name="TroopSelection" type="Label" parent="TroopFortifyPopup/VBoxContainer"]
-visible = false
+[node name="popup_info" type="Label" parent="TroopFortifyPopup/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 text = "Number of Troops"
 horizontal_alignment = 1
 
-[node name="Slider" type="HSlider" parent="TroopFortifyPopup/VBoxContainer"]
-visible = false
+[node name="troop_selection_label" type="Label" parent="TroopFortifyPopup/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 29
+text = "#"
+horizontal_alignment = 1
+
+[node name="troop_slider" type="HSlider" parent="TroopFortifyPopup/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_ngb5x")
+max_value = 100000.0
 
 [node name="Confirm" type="Button" parent="TroopFortifyPopup/VBoxContainer"]
-visible = false
 layout_mode = 2
 text = "Confirm"
 
-[node name="Cancel" type="Button" parent="TroopFortifyPopup/VBoxContainer"]
-visible = false
-layout_mode = 2
-text = "Cancel"
-
 [node name="Confirm Fortify" type="Button" parent="."]
-visible = false
 offset_left = 1469.0
 offset_top = 1037.0
 offset_right = 1695.0
