@@ -3,10 +3,8 @@
 [ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="1_nmo0a"]
 
 [node name="Node2D" type="Node2D"]
-visible = false
 
 [node name="Confirm Attack" type="Button" parent="."]
-visible = false
 offset_left = 1469.0
 offset_top = 1037.0
 offset_right = 1695.0
@@ -14,7 +12,6 @@ offset_bottom = 1080.0
 text = "Confirm Attack"
 
 [node name="Feedback" type="Label" parent="."]
-visible = false
 z_index = 3
 offset_left = 1128.0
 offset_top = 1040.0

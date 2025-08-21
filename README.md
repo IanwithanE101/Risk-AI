@@ -19,3 +19,5 @@ Cavalry: Bodleian Library, Public domain, via Wikimedia Commons (https://commons
 Artillery: Chiswick Auctions, Public domain, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:A_tinted_drawing_of_a_Russian_field_artillery_sub-officer_with_cannon,_Iran,_late_18th_-_early_19th_century.jpg)
 
 Card Background: Hotchkiss, Jedediah, Public domain, via Wikimedia Commons (https://commons.wikimedia.org/wiki/File:Sketch_book_of_Jed._Hotchkiss,_Capt._%26_Top._Eng.,_Hd._Qrs.,_2nd_Corps,_Army_of_N._Virginia_-_(Virginia)._LOC_2005625258-12.jpg)
+
+Font: King, Kevin, Public Domain, via 1001 Free Fonts and contained EULA Kingthing: https://www.1001freefonts.com/kingthings-clarity.font

@@ -13,18 +13,30 @@ script = ExtResource("1_rgh2o")
 
 [node name="Territories" parent="." instance=ExtResource("2_pbw6q")]
 
-[node name="GeneralUI" parent="." instance=ExtResource("7_jw32o")]
-
 [node name="Controls" type="Node" parent="."]
 script = ExtResource("4_50glp")
 
 [node name="deploy_controls" parent="Controls" instance=ExtResource("4_jw32o")]
 
+[node name="TroopDeployPopup" parent="Controls/deploy_controls" index="1"]
+size = Vector2i(500, 160)
+
+[node name="VBoxContainer" parent="Controls/deploy_controls/TroopDeployPopup" index="1"]
+offset_right = 498.0
+offset_bottom = 158.0
+
 [node name="attack_controls" parent="Controls" instance=ExtResource("5_pbw6q")]
 
 [node name="fortify_controls" parent="Controls" instance=ExtResource("6_v1gob")]
 
-[editable path="GeneralUI"]
+[node name="GeneralUI" parent="Controls" instance=ExtResource("7_jw32o")]
+position = Vector2(934.909, 551.967)
+script = null
+
+[node name="CardsPopup" parent="Controls/GeneralUI/Cards" index="0"]
+visible = false
+
 [editable path="Controls/deploy_controls"]
 [editable path="Controls/attack_controls"]
 [editable path="Controls/fortify_controls"]
+[editable path="Controls/GeneralUI"]
