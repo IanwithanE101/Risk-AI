@@ -47,7 +47,7 @@
 [ext_resource type="Texture2D" uid="uid://c1l37hf3hmbl6" path="res://GUI Resources/Territories/Kamchatka.png" id="43_7vo86"]
 [ext_resource type="Texture2D" uid="uid://na8jwwtdltjp" path="res://GUI Resources/Map/Risk_Map.png" id="44_gb3r4"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Territories" type="Node2D"]
 
 [node name="Ocean" type="Sprite2D" parent="."]
 position = Vector2(960, 523)

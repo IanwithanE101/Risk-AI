@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://c4lf1osfvgf32" path="res://GUI Resources/Theme.tres" id="2_ngb5x"]
 [ext_resource type="StyleBox" uid="uid://cghppexc7w47f" path="res://GUI Resources/UI Elements/PopupCOloring.tres" id="3_8hc53"]
 
-[node name="Node2D" type="Node2D"]
+[node name="fortify_controls" type="Node2D"]
 
 [node name="Feedback" type="Label" parent="."]
 z_index = 3

@@ -4,19 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Fixed the extra characters being sent by using put_data() instead of put_utf8_string()&#10;&#10;Calculate troops accidentally used the wrong dictionary when checking continent bonus, fixed&#10;&#10;Socket Timeout Handling: Fixed the premature disconnections by properly handling socket timeouts in get_next_command()">
+    <list default="true" id="da8f3898-fd80-4dbd-b57b-475a63a11d5b" name="Changes" comment="Got all the controls centralized into the controls.gd. Now working on implementing deploy, then gonna do attack and fortify. The way it works is that the python server holds the game state and godot is just a way of interacting with it, with nothing stored locally, just visualizing the server side python game.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/GUI Resources/FROMAN.TTF" beforeDir="false" afterPath="$PROJECT_DIR$/risk/GUI Resources/FROMAN.TTF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scenes/AttackControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/AttackControls.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scenes/DeployControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/DeployControls.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scenes/FortifyControls.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/FortifyControls.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scenes/GeneralUI.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/GeneralUI.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/enviornment.py" beforeDir="false" afterPath="$PROJECT_DIR$/enviornment.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/AttackControls.tscn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/DeployControls.tscn" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/FortifyControls.tscn" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/risk/Scenes/Main.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/Main.tscn" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/risk/Scenes/Territories.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/Territories.tscn" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scripts/Controls.gd" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scripts/Controls.gd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scripts/GeneralUI.gd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/risk/Scripts/GeneralUI.gd.uid" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/risk/Scenes/firstAttempt.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/risk/Scenes/firstAttempt.tscn" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Updating-massively" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,29 +68,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Enviornment and AI setup.executor": "Run",
-    "Python.Enviornment.executor": "Run",
-    "Python.Play And Visualize.executor": "Run",
-    "Python.Training Qtables.executor": "Run",
-    "Python.config.executor": "Run",
-    "Python.dqn_model.executor": "Run",
-    "Python.enviornment.executor": "Run",
-    "Python.game_manager.executor": "Run",
-    "Python.main_menu.executor": "Run",
-    "Python.menu.executor": "Run",
-    "Python.play_game.executor": "Run",
-    "Python.pygame_gui.executor": "Run",
-    "Python.risk_server.executor": "Run",
-    "Python.test.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#11 on Updating-massively",
-    "ignore.virus.scanning.warn.message": "true",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Enviornment and AI setup.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Play And Visualize.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Training Qtables.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dqn_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.enviornment.executor&quot;: &quot;Run&quot;,
+    &quot;Python.game_manager.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.menu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.play_game.executor&quot;: &quot;Run&quot;,
+    &quot;Python.pygame_gui.executor&quot;: &quot;Run&quot;,
+    &quot;Python.risk_server.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Deploy-Phase-Godot&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Ianwi\PycharmProjects\Risk-AI-Using-Qtables-and-Genetic-Algorithm\risk" />
@@ -320,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755575255929</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Got all the controls centralized into the controls.gd. Now working on implementing deploy, then gonna do attack and fortify. The way it works is that the python server holds the game state and godot is just a way of interacting with it, with nothing stored locally, just visualizing the server side python game.">
+      <option name="closed" value="true" />
+      <created>1755737012155</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1755737012155</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -347,7 +351,8 @@
     <MESSAGE value="Added Cards, card control and the ability for python and godot to communicate, currently working on getting the phases to work under the new control scheme." />
     <MESSAGE value="Making the python gui less important, Currently have removed some gui stuff" />
     <MESSAGE value="Fixed the extra characters being sent by using put_data() instead of put_utf8_string()&#10;&#10;Calculate troops accidentally used the wrong dictionary when checking continent bonus, fixed&#10;&#10;Socket Timeout Handling: Fixed the premature disconnections by properly handling socket timeouts in get_next_command()" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the extra characters being sent by using put_data() instead of put_utf8_string()&#10;&#10;Calculate troops accidentally used the wrong dictionary when checking continent bonus, fixed&#10;&#10;Socket Timeout Handling: Fixed the premature disconnections by properly handling socket timeouts in get_next_command()" />
+    <MESSAGE value="Got all the controls centralized into the controls.gd. Now working on implementing deploy, then gonna do attack and fortify. The way it works is that the python server holds the game state and godot is just a way of interacting with it, with nothing stored locally, just visualizing the server side python game." />
+    <option name="LAST_COMMIT_MESSAGE" value="Got all the controls centralized into the controls.gd. Now working on implementing deploy, then gonna do attack and fortify. The way it works is that the python server holds the game state and godot is just a way of interacting with it, with nothing stored locally, just visualizing the server side python game." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

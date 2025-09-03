@@ -1,40 +1,47 @@
+# This should be in end_button.gd
+
 extends Button
 
 signal end_action_pressed(phase: String)
 
 var current_phase := "deploy"
+var enabled := false
 
 func _ready():
-	# Connect the pressed signal
 	pressed.connect(_on_pressed)
-	
-	# Set initial text
-	set_phase("deploy")
-
-func set_phase(phase: String):
-	"""Updates button text to show 'End [Phase]'"""
-	current_phase = phase.to_lower()
-	text = "End " + phase.capitalize()
-	
-	# Optional: Different colors for different phases
-	match current_phase:
-		"deploy":
-			modulate = Color(0.8, 1.0, 0.8)  # Light green
-		"attack":
-			modulate = Color(1.0, 0.8, 0.8)  # Light red
-		"fortify":
-			modulate = Color(0.8, 0.8, 1.0)  # Light blue
-		_:
-			modulate = Color.WHITE
+	set_enabled(false)  # Start disabled
 
 func _on_pressed():
-	# Emit signal with current phase
-	end_action_pressed.emit(current_phase)
+	if not enabled:
+		return
+	
 	print("🔘 End button pressed: End", current_phase.capitalize())
+	
+	# Emit the signal with the current phase
+	end_action_pressed.emit(current_phase)
+	
+	# Disable until next action
+	set_enabled(false)
 
-func set_enabled(enabled: bool):
-	disabled = not enabled
-	if disabled:
-		modulate.a = 0.5  # Make semi-transparent when disabled
+func set_phase(phase: String):
+	"""Updates the button text based on current phase."""
+	current_phase = phase
+	match phase:
+		"deploy":
+			text = "End Deploy"
+		"attack":
+			text = "End Attack"
+		"fortify":
+			text = "End Fortify"
+		_:
+			text = "End Phase"
+
+func set_enabled(is_enabled: bool):
+	"""Enables or disables the button."""
+	enabled = is_enabled
+	disabled = not is_enabled
+	
+	if is_enabled:
+		modulate.a = 1.0  # Full opacity
 	else:
-		modulate.a = 1.0  # Full opacity when enabled
+		modulate.a = 0.5  # Half opacity when disabled
