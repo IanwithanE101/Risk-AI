@@ -2,7 +2,7 @@
 
 [ext_resource type="FontFile" uid="uid://n820thwgcbyq" path="res://GUI Resources/FROMAN.TTF" id="1_nmo0a"]
 
-[node name="Node2D" type="Node2D"]
+[node name="attack_controls" type="Node2D"]
 
 [node name="Confirm Attack" type="Button" parent="."]
 offset_left = 1469.0

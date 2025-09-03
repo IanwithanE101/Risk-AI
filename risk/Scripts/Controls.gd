@@ -41,10 +41,24 @@ var troops_to_deploy := 0
 var selected_territory := ""
 var risk_client: Node
 
+# Attack phase specific
+var attack_arrow_line: Line2D = null
+var is_attacking := false
+var attack_from_position := Vector2.ZERO
+var attack_from_territory := ""
+
 func _ready():
 	print("🔍 CONTROLS: _ready() called")
 	print("🔍 CONTROLS: My parent is: ", get_parent().name)
-	
+	# Create attack arrow line
+	attack_arrow_line = Line2D.new()
+	attack_arrow_line.width = 3.0
+	attack_arrow_line.default_color = Color(1.0, 1.0, 0.0, 0.7)  # Yellow semi-transparent
+	attack_arrow_line.add_point(Vector2.ZERO)
+	attack_arrow_line.add_point(Vector2.ZERO)
+	attack_arrow_line.visible = false
+	add_child(attack_arrow_line)
+	print("Crafted the arrow.")
 	# ================================================================
 	# FIND DEPLOY/ATTACK/FORTIFY CONTROLS
 	# ================================================================
@@ -222,12 +236,6 @@ func activate_deploy_phase():
 	
 	# Update feedback label
 	update_feedback_label()
-
-func activate_attack_phase():
-	"""Activates attack phase controls (placeholder)."""
-	print("⚔️ CONTROLS: Activating attack phase (not implemented)")
-	if attack_controls:
-		attack_controls.visible = true
 
 func activate_fortify_phase():
 	"""Activates fortify phase controls (placeholder)."""
@@ -616,3 +624,70 @@ func _on_popup_x_clicked():
 	"""Called when user clicks the built-in X button on window border"""
 	print("❌ CONTROLS: User clicked built-in X button - cancelling deploy")
 	_on_cancel_deploy()  # Same cleanup as cancel button
+
+func activate_attack_phase():
+	"""Activates attack phase controls."""
+	print("⚔️ CONTROLS: Activating attack phase")
+	
+	if attack_controls:
+		attack_controls.visible = true
+	
+	# Enable territory interactions for attack selection
+	enable_territory_interactions()
+
+func start_attack_selection(territory_name: String, from_position: Vector2):
+	"""Called when user starts selecting an attack (mouse down on valid attacker)."""
+	print("⚔️ CONTROLS: Starting attack from", territory_name)
+	is_attacking = true
+	attack_from_territory = territory_name
+	attack_from_position = from_position
+	
+	# Show and position arrow
+	if attack_arrow_line:
+		attack_arrow_line.visible = true
+		attack_arrow_line.set_point_position(0, from_position)
+		attack_arrow_line.set_point_position(1, from_position)
+
+func execute_attack(from_territory: String, to_territory: String):
+	"""Executes an attack between two territories."""
+	print("🎯 CONTROLS: Executing attack from", from_territory, "to", to_territory)
+	
+	# Send attack command to server
+	if risk_client and risk_client.has_method("send_attack"):
+		risk_client.send_attack(current_player, from_territory, to_territory)
+	else:
+		print("❌ CONTROLS: Cannot send attack command - RiskClient method missing!")
+	
+	# Hide arrow
+	end_attack_selection()
+
+func end_attack_selection():
+	"""Cleans up attack selection state."""
+	is_attacking = false
+	attack_from_territory = ""
+	attack_from_position = Vector2.ZERO
+	
+	if attack_arrow_line:
+		attack_arrow_line.visible = false
+
+# Add this to handle arrow following mouse:
+func _process(_delta):
+	"""Updates attack arrow to follow mouse."""
+	if is_attacking and attack_arrow_line and attack_arrow_line.visible:
+		var mouse_pos = get_global_mouse_position()
+		attack_arrow_line.set_point_position(1, mouse_pos)
+
+# Also add this to properly handle when mouse is released outside territories:
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			if is_attacking:
+				# Mouse released but not on a valid target
+				print("❌ CONTROLS: Attack cancelled")
+				end_attack_selection()
+				# Clear all territory states
+				var territories = get_parent().get_node_or_null("Territories")
+				if territories:
+					for territory in territories.get_children():
+						if territory.has_method("clear_attack_state"):
+							territory.clear_attack_state()

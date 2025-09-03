@@ -260,6 +260,29 @@ class Territory:
     def get_image_path(self):
         return self.image_path
 
+    def add_troops(self, troops):
+        """Adds troops to the territory."""
+        self.troop_count += troops
+
+    def remove_troops(self, troops):
+        """Removes troops from this territory.
+
+        Args:
+            troops (int): Number of troops to remove
+
+        Returns:
+            bool: True if successful, False if not enough troops
+        """
+        if self.troop_count >= troops:
+            self.troop_count -= troops
+            return True
+        return False
+
+    def set_troops(self, troops):
+        """Sets the exact troop count (useful for battle outcomes)."""
+        self.troop_count = max(0, troops)  # Ensure non-negative
+        return self.troop_count
+
     @classmethod
     def initialize_territories(cls):
         new_dict = {}
